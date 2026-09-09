@@ -183,7 +183,7 @@ export default function App() {
       />
 
       {/* Main Stage (16:9 Landscape optimized container) */}
-      <main className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video flex flex-col items-center justify-center px-8 md:px-16 pt-20 pb-16 overflow-hidden">
+      <main className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 pt-16 sm:pt-20 pb-12 sm:pb-16 overflow-hidden">
         {/* Intro Screen */}
         {playbackState === 'intro' && (
           <IntroScreen
@@ -203,7 +203,7 @@ export default function App() {
 
         {/* Quiz Question / Countdown / Reveal / Transition Screen */}
         {(playbackState === 'thinking' || playbackState === 'countdown' || playbackState === 'reveal' || playbackState === 'transition') && (
-          <div className="w-full flex flex-col items-center justify-center space-y-8 animate-fade-in">
+          <div className="w-full flex flex-col items-center justify-center space-y-4 sm:space-y-8 animate-fade-in">
             <QuestionRenderer
               question={currentQuestion}
               currentIndex={currentIndex}
@@ -212,9 +212,9 @@ export default function App() {
             />
 
             {/* Countdown or Reveal or Transition Box */}
-            <div className="flex items-center justify-center min-h-[90px]">
+            <div className="flex items-center justify-center min-h-[60px] sm:min-h-[90px]">
               {playbackState === 'thinking' && (
-                <div className="text-slate-400 text-sm font-medium animate-pulse">
+                <div className="text-slate-400 text-xs sm:text-sm font-medium animate-pulse px-4 text-center">
                   Read the question and prepare your answer...
                 </div>
               )}
