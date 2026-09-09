@@ -1,0 +1,7 @@
+{
+  "name": "Bible Challenge Video Engine",
+  "description": "A premium browser-based Bible quiz video production engine for long-form YouTube videos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
