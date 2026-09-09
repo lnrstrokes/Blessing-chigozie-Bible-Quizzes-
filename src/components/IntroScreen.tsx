@@ -15,9 +15,9 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ dataset, onStart }) =>
       <div className="absolute w-[600px] h-[600px] bg-amber-600/10 rounded-full blur-3xl pointer-events-none animate-pulse" />
 
       <div className="relative z-10 max-w-3xl mx-auto space-y-8">
-        <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold uppercase tracking-widest">
+        <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold uppercase tracking-widest font-cinzel">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Professional YouTube Quiz Engine</span>
+          <span>Blessing Chigozie Bible Challenge</span>
         </div>
 
         <div className="space-y-4">
@@ -55,9 +55,14 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ dataset, onStart }) =>
           </button>
         </div>
 
-        <p className="text-xs text-slate-400 font-medium tracking-wider uppercase">
-          Optimized for 16:9 Landscape Video Recording & YouTube
-        </p>
+        <div className="space-y-1.5 pt-2">
+          <p className="text-xs text-amber-300/90 font-semibold tracking-wide">
+            💬 Type A, B, C or D in the chat to lock in your answer before the timer elapses!
+          </p>
+          <p className="text-[11px] text-slate-400 font-medium tracking-wider">
+            Subscribe, Like & Share for more Bible study challenges | © Blessing Chigozie
+          </p>
+        </div>
       </div>
     </div>
   );

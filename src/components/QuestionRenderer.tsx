@@ -1,12 +1,17 @@
 import React from 'react';
 import { Question, PlaybackState } from '../types';
+import { CountdownTimer } from './CountdownTimer';
 
 interface QuestionRendererProps {
   question: Question;
   currentIndex: number;
   totalQuestions: number;
   playbackState: PlaybackState;
-  selectedOptionIndex?: number | null;
+  thinkingTime?: number;
+  countdownTime?: number;
+  onCountdownComplete?: () => void;
+  sfxVolume?: number;
+  cumulativeCount?: number;
 }
 
 export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
@@ -14,6 +19,10 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
   currentIndex,
   totalQuestions,
   playbackState,
+  countdownTime = 10,
+  onCountdownComplete = () => {},
+  sfxVolume = 0.7,
+  cumulativeCount,
 }) => {
   const progressPercent = ((currentIndex + 1) / totalQuestions) * 100;
 
@@ -37,7 +46,26 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
   const badge = getDifficultyBadge(question.difficulty);
 
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-6">
+    <div className="w-full max-w-5xl mx-auto space-y-3 md:space-y-4">
+      {/* Persistent Creator Brand Header */}
+      <div className="flex items-center justify-between bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-2xl shadow-md">
+        <div className="flex items-center space-x-2.5">
+          <div className="w-7 h-7 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-cinzel font-bold text-xs">
+            ✝
+          </div>
+          <div>
+            <h4 className="font-cinzel text-[11px] font-bold tracking-widest text-amber-300 uppercase">BLESSING CHIGOZIE</h4>
+            <p className="text-[9px] text-slate-400 font-medium tracking-wide">BIBLE CHALLENGE</p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-3 text-xs text-slate-300 font-medium">
+          <span className="hidden sm:inline">Live Marathon</span>
+          <span className="text-amber-400 font-bold font-mono">
+            Q{currentIndex + 1}/{totalQuestions} {cumulativeCount && cumulativeCount > 1 ? `(Stream #${cumulativeCount})` : ''}
+          </span>
+        </div>
+      </div>
+
       {/* Top Meta Bar */}
       <div className="flex items-center justify-between text-xs md:text-sm font-semibold tracking-wider text-slate-400 uppercase">
         <div className="flex items-center space-x-3">
@@ -47,8 +75,8 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
             {badge.label}
           </span>
         </div>
-        <div className="font-mono text-amber-300">
-          Question {currentIndex + 1} of {totalQuestions}
+        <div className="text-amber-300 font-medium text-xs">
+          {playbackState === 'thinking' ? 'Prepare Your Answer' : 'Countdown Active'}
         </div>
       </div>
 
@@ -61,39 +89,61 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
       </div>
 
       {/* Question Card */}
-      <div className="bg-slate-900/80 border border-slate-800/80 backdrop-blur-xl p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-2 h-full bg-amber-500/60" />
+      <div className="bg-slate-900/90 border border-slate-800 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-2xl relative overflow-hidden space-y-4">
+        <div className="absolute top-0 left-0 w-2 h-full bg-amber-500/80" />
 
-        <h2 className="text-2xl md:text-4xl font-bold text-slate-100 leading-snug tracking-tight mb-8 break-words">
+        {/* Top Row inside card: Chat CTA + Countdown Timer */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-slate-950/60 border border-slate-800/80 p-3.5 rounded-2xl">
+          <div className="flex items-center space-x-2 text-amber-300 text-xs font-semibold">
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+            <span>💬 Lock in your answer — Type A, B, C or D in the chat!</span>
+          </div>
+
+          <div className="flex items-center space-x-2 self-end sm:self-auto">
+            <span className="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">
+              {playbackState === 'thinking' ? 'Thinking Time:' : 'Countdown:'}
+            </span>
+            <div className="scale-90 origin-right sm:origin-center">
+              <CountdownTimer
+                durationSeconds={playbackState === 'countdown' ? countdownTime : 15}
+                isActive={playbackState === 'thinking' || playbackState === 'countdown'}
+                onComplete={onCountdownComplete}
+                sfxVolume={sfxVolume}
+              />
+            </div>
+          </div>
+        </div>
+
+        <h2 className="text-xl md:text-3xl font-bold text-slate-100 leading-snug tracking-tight break-words">
           {question.question}
         </h2>
 
         {/* Answer Options Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {question.options.map((option, idx) => {
-            const letter = String.fromCharCode(65 + idx); // A, B, C, D
+            const letter = String.fromCharCode(65 + idx);
             const isRevealed = playbackState === 'reveal';
             const isCorrect = idx === question.answerIndex;
 
-            let cardStyle = 'bg-slate-800/60 border-slate-700/60 text-slate-200 hover:bg-slate-800';
+            let cardStyle = 'bg-slate-800/50 border-slate-700/60 text-slate-200 hover:bg-slate-800';
 
             if (isRevealed) {
               if (isCorrect) {
-                cardStyle = 'bg-emerald-950/70 border-emerald-500 text-emerald-100 shadow-lg shadow-emerald-900/40 ring-2 ring-emerald-500/50';
+                cardStyle = 'bg-emerald-950/80 border-emerald-500 text-emerald-100 shadow-lg ring-2 ring-emerald-500/50';
               } else {
-                cardStyle = 'bg-slate-900/40 border-slate-800 text-slate-500 opacity-50';
+                cardStyle = 'bg-slate-900/40 border-slate-800/50 text-slate-500 opacity-50';
               }
             }
 
             return (
               <div
                 key={idx}
-                className={`flex items-center p-4 md:p-5 rounded-2xl border transition-all duration-300 ${cardStyle}`}
+                className={`flex items-center p-3.5 md:p-4 rounded-2xl border transition-all duration-300 ${cardStyle}`}
               >
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm mr-4 shrink-0 transition-colors ${isRevealed && isCorrect ? 'bg-emerald-500 text-slate-950' : 'bg-slate-700/60 text-amber-400'}`}>
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm mr-3.5 shrink-0 transition-colors ${isRevealed && isCorrect ? 'bg-emerald-500 text-slate-950' : 'bg-slate-700/60 text-amber-400'}`}>
                   {letter}
                 </div>
-                <span className="text-base md:text-lg font-medium leading-relaxed">
+                <span className="text-sm md:text-base font-medium leading-relaxed">
                   {option}
                 </span>
               </div>
@@ -104,3 +154,4 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
     </div>
   );
 };
+

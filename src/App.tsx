@@ -23,6 +23,7 @@ export default function App() {
   const [isDatasetModalOpen, setIsDatasetModalOpen] = useState<boolean>(false);
   const [isPreviewPanelOpen, setIsPreviewPanelOpen] = useState<boolean>(false);
   const [isMilestoneActive, setIsMilestoneActive] = useState<boolean>(false);
+  const [cumulativeCount, setCumulativeCount] = useState<number>(1);
 
   const [settings] = useState<QuizSettings>({
     thinkingTime: 15,
@@ -85,6 +86,7 @@ export default function App() {
 
   const startQuiz = () => {
     setCurrentIndex(0);
+    setCumulativeCount(1);
     setPlaybackState('thinking');
     audioManager.playTransition();
   };
@@ -92,9 +94,24 @@ export default function App() {
   const restartQuiz = () => {
     clearCurrentTimer();
     setCurrentIndex(0);
+    setCumulativeCount(1);
     setPlaybackState('intro');
     setIsMilestoneActive(false);
   };
+
+  const handleRestartOrShuffle = useCallback(() => {
+    clearCurrentTimer();
+    // Shuffle dataset questions for infinite playback run
+    const shuffledQuestions = [...dataset.questions].sort(() => Math.random() - 0.5);
+    setDataset(prev => ({
+      ...prev,
+      questions: shuffledQuestions
+    }));
+    setCurrentIndex(0);
+    setCumulativeCount(prev => prev + 1); // Increment marathon session counter
+    setPlaybackState('thinking');
+    setIsMilestoneActive(false);
+  }, [dataset.questions]);
 
   const pauseQuiz = () => {
     clearCurrentTimer();
@@ -116,6 +133,7 @@ export default function App() {
   const handleNext = useCallback(() => {
     clearCurrentTimer();
     setIsMilestoneActive(false);
+    setCumulativeCount(prev => prev + 1);
 
     if (currentIndex < dataset.questions.length - 1) {
       const nextIdx = currentIndex + 1;
@@ -148,15 +166,21 @@ export default function App() {
     return () => clearCurrentTimer();
   }, [playbackState, settings.thinkingTime]);
 
-  // Handle Countdown Completion -> Reveal transition
+  // Handle Reveal Period -> Transition transition
+  useEffect(() => {
+    if (playbackState === 'reveal') {
+      clearCurrentTimer();
+      timerRef.current = window.setTimeout(() => {
+        setPlaybackState('transition');
+      }, settings.answerRevealTime * 1000);
+    }
+    return () => clearCurrentTimer();
+  }, [playbackState, settings.answerRevealTime]);
+
   const handleCountdownComplete = useCallback(() => {
     clearCurrentTimer();
     setPlaybackState('reveal');
-    // After reveal time, start transition countdown before next question
-    timerRef.current = window.setTimeout(() => {
-      setPlaybackState('transition');
-    }, settings.answerRevealTime * 1000);
-  }, [settings.answerRevealTime]);
+  }, []);
 
   const handleTransitionComplete = useCallback(() => {
     clearCurrentTimer();
@@ -166,7 +190,7 @@ export default function App() {
   const currentQuestion = dataset.questions[currentIndex] || dataset.questions[0];
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-slate-950 font-sans select-none flex flex-col items-center justify-center">
+    <div className="relative w-screen h-[100dvh] overflow-hidden bg-slate-950 font-sans select-none flex flex-col items-center justify-center">
       {/* Header controls */}
       <HeaderControls
         dataset={dataset}
@@ -204,14 +228,26 @@ export default function App() {
         {/* Quiz Question / Countdown / Reveal / Transition Screen */}
         {(playbackState === 'thinking' || playbackState === 'countdown' || playbackState === 'reveal' || playbackState === 'transition') && (
           <div className="w-full flex flex-col items-center justify-center space-y-4 sm:space-y-8 animate-fade-in">
-            <QuestionRenderer
-              question={currentQuestion}
-              currentIndex={currentIndex}
-              totalQuestions={dataset.questions.length}
-              playbackState={playbackState}
-            />
+            {playbackState !== 'reveal' ? (
+              <QuestionRenderer
+                question={currentQuestion}
+                currentIndex={currentIndex}
+                totalQuestions={dataset.questions.length}
+                playbackState={playbackState}
+                thinkingTime={settings.thinkingTime}
+                countdownTime={settings.countdownTime}
+                onCountdownComplete={handleCountdownComplete}
+                sfxVolume={audioSettings.sfxVolume}
+                cumulativeCount={cumulativeCount}
+              />
+            ) : (
+              <AnswerReveal
+                question={currentQuestion}
+                sfxVolume={audioSettings.sfxVolume}
+              />
+            )}
 
-            {/* Countdown or Reveal or Transition Box */}
+            {/* Countdown or Transition Box */}
             <div className="flex items-center justify-center min-h-[60px] sm:min-h-[90px]">
               {playbackState === 'thinking' && (
                 <div className="text-slate-400 text-xs sm:text-sm font-medium animate-pulse px-4 text-center">
@@ -224,13 +260,6 @@ export default function App() {
                   durationSeconds={settings.countdownTime}
                   isActive={playbackState === 'countdown'}
                   onComplete={handleCountdownComplete}
-                  sfxVolume={audioSettings.sfxVolume}
-                />
-              )}
-
-              {playbackState === 'reveal' && (
-                <AnswerReveal
-                  question={currentQuestion}
                   sfxVolume={audioSettings.sfxVolume}
                 />
               )}
@@ -256,7 +285,7 @@ export default function App() {
         {playbackState === 'outro' && (
           <FinalScreen
             dataset={dataset}
-            onRestart={restartQuiz}
+            onRestart={handleRestartOrShuffle}
             sfxVolume={audioSettings.sfxVolume}
           />
         )}
