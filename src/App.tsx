@@ -207,7 +207,7 @@ export default function App() {
       />
 
       {/* Main Stage (16:9 Landscape optimized container) */}
-      <main className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 pt-16 sm:pt-20 pb-12 sm:pb-16 overflow-hidden">
+      <main className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video flex flex-col items-center justify-between px-3 sm:px-8 md:px-16 py-3 sm:py-6 overflow-hidden">
         {/* Intro Screen */}
         {playbackState === 'intro' && (
           <IntroScreen
@@ -227,7 +227,7 @@ export default function App() {
 
         {/* Quiz Question / Countdown / Reveal / Transition Screen */}
         {(playbackState === 'thinking' || playbackState === 'countdown' || playbackState === 'reveal' || playbackState === 'transition') && (
-          <div className="w-full flex flex-col items-center justify-center space-y-4 sm:space-y-8 animate-fade-in">
+          <div className="w-full flex flex-col items-center justify-center space-y-2 sm:space-y-4 animate-fade-in my-auto">
             {playbackState !== 'reveal' ? (
               <QuestionRenderer
                 question={currentQuestion}
