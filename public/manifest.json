@@ -3,7 +3,11 @@
   "short_name": "Bible Challenge",
   "start_url": "/Blessing-chigozie-Bible-Quizzes-/",
   "scope": "/Blessing-chigozie-Bible-Quizzes-/",
-  "display": "standalone",
+  "display": "fullscreen",
+  "display_override": [
+    "fullscreen",
+    "standalone"
+  ],
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
   "icons": [
