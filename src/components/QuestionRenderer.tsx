@@ -114,12 +114,12 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
           </div>
         </div>
 
-        <h2 className="text-xl md:text-3xl font-bold text-slate-100 leading-snug tracking-tight break-words">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-slate-100 leading-snug tracking-tight break-words">
           {question.question}
         </h2>
 
         {/* Answer Options Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {question.options.map((option, idx) => {
             const letter = String.fromCharCode(65 + idx);
             const isRevealed = playbackState === 'reveal';
@@ -138,12 +138,12 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
             return (
               <div
                 key={idx}
-                className={`flex items-center p-3.5 md:p-4 rounded-2xl border transition-all duration-300 ${cardStyle}`}
+                className={`flex items-center p-3 md:p-3.5 rounded-2xl border transition-all duration-300 ${cardStyle}`}
               >
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm mr-3.5 shrink-0 transition-colors ${isRevealed && isCorrect ? 'bg-emerald-500 text-slate-950' : 'bg-slate-700/60 text-amber-400'}`}>
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs mr-3 shrink-0 transition-colors ${isRevealed && isCorrect ? 'bg-emerald-500 text-slate-950' : 'bg-slate-700/60 text-amber-400'}`}>
                   {letter}
                 </div>
-                <span className="text-sm md:text-base font-medium leading-relaxed">
+                <span className="text-xs sm:text-sm md:text-base font-medium leading-relaxed">
                   {option}
                 </span>
               </div>
