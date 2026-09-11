@@ -59,9 +59,9 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
           </div>
         </div>
         <div className="flex items-center space-x-3 text-xs text-slate-300 font-medium">
-          <span className="hidden sm:inline">Live Marathon</span>
+          <span className="hidden sm:inline font-cinzel text-amber-300">Blessing Chigozie</span>
           <span className="text-amber-400 font-bold font-mono">
-            Q{currentIndex + 1}/{totalQuestions} {cumulativeCount && cumulativeCount > 1 ? `(Stream #${cumulativeCount})` : ''}
+            Q{currentIndex + 1} / {totalQuestions}
           </span>
         </div>
       </div>
@@ -104,12 +104,21 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
               {playbackState === 'thinking' ? 'Thinking Time:' : 'Countdown:'}
             </span>
             <div className="scale-90 origin-right sm:origin-center">
-              <CountdownTimer
-                durationSeconds={playbackState === 'countdown' ? countdownTime : 15}
-                isActive={playbackState === 'thinking' || playbackState === 'countdown'}
-                onComplete={onCountdownComplete}
-                sfxVolume={sfxVolume}
-              />
+              {playbackState === 'countdown' ? (
+                <CountdownTimer
+                  durationSeconds={countdownTime}
+                  isActive={true}
+                  onComplete={onCountdownComplete}
+                  sfxVolume={sfxVolume}
+                />
+              ) : (
+                <div className="flex items-center space-x-2 bg-slate-900/90 border border-slate-800 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl">
+                  <div className="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 font-mono text-sm font-bold animate-pulse">
+                    15
+                  </div>
+                  <span className="text-xs font-semibold text-amber-300">Read & Prepare</span>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 {
-  "name": "Bible Challenge Video Engine",
-  "description": "A premium browser-based Bible quiz video production engine for long-form YouTube videos.",
+  "name": "Blessing Chigozie Bible Challenge",
+  "description": "A scholarly Bible quiz challenge application by Blessing Chigozie featuring scripture questions, answer reveals, and biblical insights.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

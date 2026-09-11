@@ -1,11 +1,30 @@
 import { QuizDataset, Question } from '../types';
 
+export const shuffleQuestionOptions = <T extends Omit<Question, 'id'> | Question>(q: T): T => {
+  const correctAnswerText = q.answer || q.options[q.answerIndex] || q.options[0];
+  const options = [...q.options];
+
+  for (let i = options.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [options[i], options[j]] = [options[j], options[i]];
+  }
+
+  const answerIndex = options.indexOf(correctAnswerText);
+
+  return {
+    ...q,
+    options,
+    answerIndex: answerIndex >= 0 ? answerIndex : 0,
+    answer: correctAnswerText
+  };
+};
+
 export const testDataset: QuizDataset = {
   id: 'test-10',
   title: 'Scholarly Theology Test (10 Qs)',
   description: 'An advanced 10-question rigorous theological dataset to test the quiz engine.',
   category: 'Advanced Mixed',
-  questions: [
+  questions: ([
     {
       id: 1,
       question: 'Which king of Judah smashed the bronze serpent Nehushtan because the Israelites were offering incense to it?',
@@ -116,7 +135,7 @@ export const testDataset: QuizDataset = {
       category: 'New Testament',
       explanation: 'I know your works: you are neither cold nor hot. Would that you were either cold or hot!'
     }
-  ]
+  ] as Question[]).map(q => shuffleQuestionOptions(q))
 };
 
 // Generate comprehensive master 110 question dataset with advanced, rigorous, scholarly theological & historical questions
@@ -1108,6 +1127,208 @@ const generateMasterQuestions = (): Question[] => {
       difficulty: 'easy',
       category: 'Old Testament',
       explanation: 'The Lord has sought out a man after his own heart, and the Lord has commanded him to be prince over his people.'
+    },
+
+    // Expanded Scholarly Bible Questions
+    {
+      question: 'Which child king of Judah was hidden in the house of the LORD for six years while Athaliah usurped the throne?',
+      options: ['Joash', 'Josiah', 'Manasseh', 'Uzziah'],
+      answerIndex: 0,
+      answer: 'Joash',
+      reference: '2 Kings 11:3',
+      difficulty: 'expert',
+      category: 'Old Testament',
+      explanation: 'Joash was hidden with his nurse in the house of the Lord six years, while Athaliah reigned over the land.'
+    },
+    {
+      question: 'In Revelation 9, what is the name of the angel of the bottomless pit in Hebrew and Greek?',
+      options: ['Abaddon & Apollyon', 'Lucifer & Beelzebub', 'Belial & Mammon', 'Satan & Legion'],
+      answerIndex: 0,
+      answer: 'Abaddon & Apollyon',
+      reference: 'Revelation 9:11',
+      difficulty: 'expert',
+      category: 'New Testament',
+      explanation: 'They have as king over them the angel of the bottomless pit. His name in Hebrew is Abaddon, and in Greek he is called Apollyon.'
+    },
+    {
+      question: 'Which prophet saw a vision of a flying scroll twenty cubits long and ten cubits wide representing a curse?',
+      options: ['Zechariah', 'Haggai', 'Malachi', 'Amos'],
+      answerIndex: 0,
+      answer: 'Zechariah',
+      reference: 'Zechariah 5:2',
+      difficulty: 'expert',
+      category: 'Old Testament',
+      explanation: 'He said to me, "What do you see?" I answered, "I see a flying scroll; its length is twenty cubits, and its width ten cubits."'
+    },
+    {
+      question: 'Which judge made a tragic vow that resulted in offering his only daughter after returning from victory over Ammon?',
+      options: ['Jephthah', 'Gideon', 'Samson', 'Ehud'],
+      answerIndex: 0,
+      answer: 'Jephthah',
+      reference: 'Judges 11:30-31',
+      difficulty: 'expert',
+      category: 'Old Testament',
+      explanation: 'And Jephthah made a vow to the Lord and said, "If you will give the Ammonites into my hand, whatever comes out from the doors of my house to meet me... shall be the Lord’s."'
+    },
+    {
+      question: 'In Paul’s letter to Titus, on which Mediterranean island was Titus left to set in order remaining matters and appoint elders?',
+      options: ['Crete', 'Cyprus', 'Malta', 'Rhodes'],
+      answerIndex: 0,
+      answer: 'Crete',
+      reference: 'Titus 1:5',
+      difficulty: 'very_hard',
+      category: 'New Testament',
+      explanation: 'This is why I left you in Crete, so that you might put what remained into order and appoint elders in every town as I directed you.'
+    },
+    {
+      question: 'What was the name of the sacred location where Jacob wrestled with a man until daybreak and received the name Israel?',
+      options: ['Peniel', 'Bethel', 'Shiloh', 'Mizpah'],
+      answerIndex: 0,
+      answer: 'Peniel',
+      reference: 'Genesis 32:30',
+      difficulty: 'very_hard',
+      category: 'Old Testament',
+      explanation: 'So Jacob called the name of the place Peniel, saying, "For I have seen God face to face, and yet my life has been delivered."'
+    },
+    {
+      question: 'Which king of Israel committed suicide by setting the royal palace on fire over himself after reigning for only 7 days?',
+      options: ['Zimri', 'Tibni', 'Omri', 'Elah'],
+      answerIndex: 0,
+      answer: 'Zimri',
+      reference: '1 Kings 16:15-18',
+      difficulty: 'very_hard',
+      category: 'Old Testament',
+      explanation: 'In the twenty-seventh year of Asa king of Judah, Zimri reigned seven days in Tirzah... he went into the citadel of the king’s house and burned the king’s house over him with fire.'
+    },
+    {
+      question: 'What was the title and meaning of the Greek term "Maranatha" used by Paul in 1 Corinthians 16:22?',
+      options: ['Our Lord, come!', 'Praise be to God!', 'Holy is the Lord', 'Grace be with you'],
+      answerIndex: 0,
+      answer: 'Our Lord, come!',
+      reference: '1 Corinthians 16:22',
+      difficulty: 'very_hard',
+      category: 'New Testament',
+      explanation: 'If anyone has no love for the Lord, let him be accursed. Our Lord, come! (Maranatha).'
+    },
+    {
+      question: 'Who was the prophet sent by God to rebuke King David after he numbered the military forces of Israel and Judah?',
+      options: ['Gad', 'Nathan', 'Ahijah', 'Shemaiah'],
+      answerIndex: 0,
+      answer: 'Gad',
+      reference: '2 Samuel 24:11',
+      difficulty: 'very_hard',
+      category: 'Old Testament',
+      explanation: 'And when David arose in the morning, the word of the Lord came to the prophet Gad, David’s seer.'
+    },
+    {
+      question: 'In Ezekiel 3, what symbolic object was Ezekiel instructed to eat before going to proclaim God’s message to Israel?',
+      options: ['A scroll', 'Unleavened bread', 'A bitter herb', 'A honeycomb'],
+      answerIndex: 0,
+      answer: 'A scroll',
+      reference: 'Ezekiel 3:1',
+      difficulty: 'very_hard',
+      category: 'Old Testament',
+      explanation: 'And he said to me, "Son of man, eat whatever you find here. Eat this scroll, and go, speak to the house of Israel."'
+    },
+    {
+      question: 'In John 5, at which pool with five colonnades did Jesus heal the invalid who had been paralyzed for 38 years?',
+      options: ['Bethesda', 'Siloam', 'Gihon', 'Engedi'],
+      answerIndex: 0,
+      answer: 'Bethesda',
+      reference: 'John 5:2-9',
+      difficulty: 'hard',
+      category: 'Gospels',
+      explanation: 'Now there is in Jerusalem by the Sheep Gate a pool, in Aramaic called Bethesda, which has five roofed colonnades.'
+    },
+    {
+      question: 'What was the name of Timothy’s godly grandmother mentioned by Paul in 2 Timothy as having sincere faith?',
+      options: ['Lois', 'Eunice', 'Phoebe', 'Claudia'],
+      answerIndex: 0,
+      answer: 'Lois',
+      reference: '2 Timothy 1:5',
+      difficulty: 'hard',
+      category: 'New Testament',
+      explanation: 'I am reminded of your sincere faith, a faith that dwelt first in your grandmother Lois and your mother Eunice.'
+    },
+    {
+      question: 'In Acts 17, in which famous Greek assembly did Paul deliver his sermon regarding the "Unknown God"?',
+      options: ['Areopagus', 'Parthenon', 'Agora', 'Colosseum'],
+      answerIndex: 0,
+      answer: 'Areopagus',
+      reference: 'Acts 17:22',
+      difficulty: 'hard',
+      category: 'New Testament',
+      explanation: 'So Paul, standing in the midst of the Areopagus, said: "Men of Athens, I perceive that in every way you are very religious."'
+    },
+    {
+      question: 'Which prophet prophesied during the reign of Josiah, proclaiming "The Great Day of the LORD is Near"?',
+      options: ['Zephaniah', 'Haggai', 'Malachi', 'Joel'],
+      answerIndex: 0,
+      answer: 'Zephaniah',
+      reference: 'Zephaniah 1:1',
+      difficulty: 'hard',
+      category: 'Old Testament',
+      explanation: 'The word of the Lord that came to Zephaniah... in the days of Josiah the son of Amon, king of Judah.'
+    },
+    {
+      question: 'What was the name of the valley where David engaged in single combat against Goliath of Gath?',
+      options: ['Valley of Elah', 'Valley of Jezreel', 'Valley of Hinnom', 'Valley of Baca'],
+      answerIndex: 0,
+      answer: 'Valley of Elah',
+      reference: '1 Samuel 17:2',
+      difficulty: 'hard',
+      category: 'Old Testament',
+      explanation: 'And Saul and the men of Israel were gathered, and encamped in the Valley of Elah, and drew up in line of battle against the Philistines.'
+    },
+    {
+      question: 'Which deacon preached in Samaria and was instructed by an angel to meet the Ethiopian eunuch on the Gaza road?',
+      options: ['Philip', 'Stephen', 'Prochorus', 'Timon'],
+      answerIndex: 0,
+      answer: 'Philip',
+      reference: 'Acts 8:26',
+      difficulty: 'hard',
+      category: 'New Testament',
+      explanation: 'Now an angel of the Lord said to Philip, "Rise and go toward the south to the road that goes down from Jerusalem to Gaza."'
+    },
+    {
+      question: 'What covenant sign was given to Noah and all living creatures after the global flood?',
+      options: ['Rainbow', 'Circumcision', 'Sabbath', 'Passover'],
+      answerIndex: 0,
+      answer: 'Rainbow',
+      reference: 'Genesis 9:13',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'I have set my bow in the cloud, and it shall be a sign of the covenant between me and the earth.'
+    },
+    {
+      question: 'Who was the Babylonian king who saw handwriting on the wall during his lavish banquet?',
+      options: ['Belshazzar', 'Nebuchadnezzar', 'Nabonidus', 'Evil-Merodach'],
+      answerIndex: 0,
+      answer: 'Belshazzar',
+      reference: 'Daniel 5:1',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'King Belshazzar made a great feast for a thousand of his lords and drank wine in front of the thousand.'
+    },
+    {
+      question: 'Which apostle was a tax collector before being called by Jesus?',
+      options: ['Matthew', 'Andrew', 'Thomas', 'Bartholomew'],
+      answerIndex: 0,
+      answer: 'Matthew',
+      reference: 'Matthew 9:9',
+      difficulty: 'medium',
+      category: 'Gospels',
+      explanation: 'As Jesus passed on from there, he saw a man called Matthew sitting at the tax booth, and he said to him, "Follow me."'
+    },
+    {
+      question: 'Who was the sister of Mary and Lazarus who was anxious and troubled about many serving tasks?',
+      options: ['Martha', 'Salome', 'Joanna', 'Susanna'],
+      answerIndex: 0,
+      answer: 'Martha',
+      reference: 'Luke 10:41',
+      difficulty: 'medium',
+      category: 'Gospels',
+      explanation: 'But the Lord answered her, "Martha, Martha, you are anxious and troubled about many things."'
     }
   ];
 
@@ -1118,11 +1339,14 @@ const generateMasterQuestions = (): Question[] => {
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
 
-  return shuffled.map((q, idx) => ({
-    ...q,
-    id: idx + 1,
-    explanation: q.explanation || `This rigorous question examines key biblical principles from ${q.category} and scripture reference ${q.reference}.`
-  }));
+  return shuffled.map((q, idx) => {
+    const randomized = shuffleQuestionOptions(q as Question);
+    return {
+      ...randomized,
+      id: idx + 1,
+      explanation: q.explanation || `This rigorous question examines key biblical principles from ${q.category} and scripture reference ${q.reference}.`
+    };
+  });
 };
 
 export const masterDataset: QuizDataset = {

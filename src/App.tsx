@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { QuizDataset, QuizSettings, PlaybackState, AudioSettings } from './types';
-import { testDataset, masterDataset } from './data/datasets';
+import { testDataset, masterDataset, shuffleQuestionOptions } from './data/datasets';
 import { audioManager } from './utils/audio';
 import { HeaderControls } from './components/HeaderControls';
 import { ProductionControls } from './components/ProductionControls';
@@ -101,8 +101,10 @@ export default function App() {
 
   const handleRestartOrShuffle = useCallback(() => {
     clearCurrentTimer();
-    // Shuffle dataset questions for infinite playback run
-    const shuffledQuestions = [...dataset.questions].sort(() => Math.random() - 0.5);
+    // Shuffle dataset questions and randomize options for each question
+    const shuffledQuestions = [...dataset.questions]
+      .sort(() => Math.random() - 0.5)
+      .map(q => shuffleQuestionOptions(q));
     setDataset(prev => ({
       ...prev,
       questions: shuffledQuestions
@@ -133,19 +135,13 @@ export default function App() {
   const handleNext = useCallback(() => {
     clearCurrentTimer();
     setIsMilestoneActive(false);
-    setCumulativeCount(prev => prev + 1);
 
     if (currentIndex < dataset.questions.length - 1) {
       const nextIdx = currentIndex + 1;
       // Check for milestone every 10 questions (e.g. 10, 20, 30...)
       if ((nextIdx + 1) % 10 === 0 && nextIdx + 1 < dataset.questions.length) {
-        setIsMilestoneActive(true);
         setCurrentIndex(nextIdx);
         setPlaybackState('milestone');
-        timerRef.current = window.setTimeout(() => {
-          setIsMilestoneActive(false);
-          setPlaybackState('thinking');
-        }, 4000);
       } else {
         setCurrentIndex(nextIdx);
         setPlaybackState('thinking');
@@ -166,6 +162,17 @@ export default function App() {
     return () => clearCurrentTimer();
   }, [playbackState, settings.thinkingTime]);
 
+  // Handle Countdown Period -> Reveal transition (Safety fallback)
+  useEffect(() => {
+    if (playbackState === 'countdown') {
+      clearCurrentTimer();
+      timerRef.current = window.setTimeout(() => {
+        setPlaybackState('reveal');
+      }, (settings.countdownTime + 1) * 1000);
+    }
+    return () => clearCurrentTimer();
+  }, [playbackState, settings.countdownTime]);
+
   // Handle Reveal Period -> Transition transition
   useEffect(() => {
     if (playbackState === 'reveal') {
@@ -176,6 +183,30 @@ export default function App() {
     }
     return () => clearCurrentTimer();
   }, [playbackState, settings.answerRevealTime]);
+
+  // Handle Transition Period -> Next Question transition
+  useEffect(() => {
+    if (playbackState === 'transition') {
+      clearCurrentTimer();
+      timerRef.current = window.setTimeout(() => {
+        handleNext();
+      }, settings.transitionTime * 1000);
+    }
+    return () => clearCurrentTimer();
+  }, [playbackState, settings.transitionTime, handleNext]);
+
+  // Handle Milestone -> Thinking transition
+  useEffect(() => {
+    if (playbackState === 'milestone') {
+      clearCurrentTimer();
+      setIsMilestoneActive(true);
+      timerRef.current = window.setTimeout(() => {
+        setIsMilestoneActive(false);
+        setPlaybackState('thinking');
+      }, 4000);
+    }
+    return () => clearCurrentTimer();
+  }, [playbackState]);
 
   const handleCountdownComplete = useCallback(() => {
     clearCurrentTimer();
@@ -317,7 +348,11 @@ export default function App() {
         onClose={() => setIsDatasetModalOpen(false)}
         currentDataset={dataset}
         onSelectDataset={(ds) => {
-          setDataset(ds);
+          const randomizedDS = {
+            ...ds,
+            questions: ds.questions.map(q => shuffleQuestionOptions(q))
+          };
+          setDataset(randomizedDS);
           restartQuiz();
         }}
       />

@@ -10,17 +10,24 @@ interface FinalScreenProps {
 }
 
 export const FinalScreen: React.FC<FinalScreenProps> = ({ dataset, onRestart, sfxVolume }) => {
+  const onRestartRef = React.useRef(onRestart);
+  useEffect(() => {
+    onRestartRef.current = onRestart;
+  }, [onRestart]);
+
   useEffect(() => {
     audioManager.setSfxVolume(sfxVolume);
     audioManager.playCompletion();
 
-    // Automatically transition to next shuffled run after 10 seconds
+    // Automatically transition to next round after 10 seconds
     const timer = window.setTimeout(() => {
-      onRestart();
+      if (onRestartRef.current) {
+        onRestartRef.current();
+      }
     }, 10000);
 
     return () => clearTimeout(timer);
-  }, [sfxVolume, onRestart]);
+  }, [sfxVolume]);
 
   const maxQ = dataset.questions.length;
   const scale = maxQ / 110;
@@ -48,7 +55,7 @@ export const FinalScreen: React.FC<FinalScreenProps> = ({ dataset, onRestart, sf
         </div>
         <div className="flex items-center space-x-2 text-amber-400 text-xs font-semibold animate-pulse">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>New Shuffled Run Starting in 10s</span>
+          <span>Next Round Starting in 10s</span>
         </div>
       </div>
 
@@ -107,7 +114,7 @@ export const FinalScreen: React.FC<FinalScreenProps> = ({ dataset, onRestart, sf
             className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-5 py-2 rounded-xl shadow-xl transition text-xs"
           >
             <RotateCcw className="w-3.5 h-3.5 fill-slate-950" />
-            <span>Next Run Now</span>
+            <span>Start Next Round</span>
           </button>
         </div>
       </div>
