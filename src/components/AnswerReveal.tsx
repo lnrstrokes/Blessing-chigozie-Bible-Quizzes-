@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Question } from '../types';
 import { audioManager } from '../utils/audio';
-import { BookOpen, CheckCircle2, Youtube, Sparkles } from 'lucide-react';
+import { BookOpen, CheckCircle2, Sparkles } from 'lucide-react';
 
 interface AnswerRevealProps {
   question: Question;
@@ -79,11 +79,11 @@ export const AnswerReveal: React.FC<AnswerRevealProps> = ({ question, sfxVolume 
         </div>
       </div>
 
-      {/* Footer Subscription CTA */}
+      {/* Footer Creator Branding */}
       <div className="pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400 font-medium px-1">
         <div className="flex items-center space-x-2">
-          <Youtube className="w-3.5 h-3.5 text-rose-500 shrink-0" />
-          <span>More Bible quizzes — <strong className="text-amber-300 font-semibold">Subscribe for more</strong></span>
+          <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+          <span className="font-cinzel text-amber-300/90 font-semibold tracking-wide">Blessing Chigozie Bible Challenge</span>
         </div>
         <div className="hidden sm:block font-mono text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-md">
           +1 Point Awarded

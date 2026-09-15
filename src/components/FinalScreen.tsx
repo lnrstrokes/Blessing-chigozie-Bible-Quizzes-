@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { audioManager } from '../utils/audio';
-import { Award, RotateCcw, Youtube, ThumbsUp, Share2, Sparkles } from 'lucide-react';
+import { Award, RotateCcw, Sparkles } from 'lucide-react';
 import { QuizDataset } from '../types';
 
 interface FinalScreenProps {
@@ -94,24 +94,11 @@ export const FinalScreen: React.FC<FinalScreenProps> = ({ dataset, onRestart, sf
           </div>
         </div>
 
-        {/* Engagement Action Bar */}
+        {/* Round Actions */}
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-          <div className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold">
-            <Youtube className="w-4 h-4 text-rose-400 shrink-0" />
-            <span>Subscribe</span>
-          </div>
-          <div className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-semibold">
-            <ThumbsUp className="w-4 h-4 text-blue-400 shrink-0" />
-            <span>Like</span>
-          </div>
-          <div className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
-            <Share2 className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>Share</span>
-          </div>
-
           <button
             onClick={onRestart}
-            className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-5 py-2 rounded-xl shadow-xl transition text-xs"
+            className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-6 py-2.5 rounded-xl shadow-xl transition text-xs transform hover:-translate-y-0.5"
           >
             <RotateCcw className="w-3.5 h-3.5 fill-slate-950" />
             <span>Start Next Round</span>
@@ -121,7 +108,7 @@ export const FinalScreen: React.FC<FinalScreenProps> = ({ dataset, onRestart, sf
 
       {/* Footer Branding */}
       <div className="w-full max-w-4xl mx-auto text-center text-xs text-slate-400 py-2 border-t border-slate-800/80">
-        More Bible quizzes & faith-based content — <strong className="text-amber-300 font-semibold">Subscribe for more</strong> | © Blessing Chigozie
+        Blessing Chigozie Bible Challenge — Scholarly Faith & Scripture Studies | © Blessing Chigozie
       </div>
     </div>
   );

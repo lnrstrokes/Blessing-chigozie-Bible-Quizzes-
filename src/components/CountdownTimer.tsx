@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { audioManager } from '../utils/audio';
 
 interface CountdownTimerProps {
@@ -15,10 +15,17 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
   sfxVolume,
 }) => {
   const [timeLeft, setTimeLeft] = useState<number>(durationSeconds);
+  const onCompleteRef = useRef(onComplete);
+  const hasTriggeredRef = useRef(false);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   useEffect(() => {
     setTimeLeft(durationSeconds);
-  }, [durationSeconds]);
+    hasTriggeredRef.current = false;
+  }, [durationSeconds, isActive]);
 
   useEffect(() => {
     if (!isActive) return;
@@ -43,10 +50,13 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
   }, [isActive, sfxVolume]);
 
   useEffect(() => {
-    if (isActive && timeLeft === 0) {
-      onComplete();
+    if (isActive && timeLeft === 0 && !hasTriggeredRef.current) {
+      hasTriggeredRef.current = true;
+      if (onCompleteRef.current) {
+        onCompleteRef.current();
+      }
     }
-  }, [timeLeft, isActive, onComplete]);
+  }, [timeLeft, isActive]);
 
   const radius = 36;
   const circumference = 2 * Math.PI * radius;

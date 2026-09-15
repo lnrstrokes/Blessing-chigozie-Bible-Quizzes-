@@ -60,7 +60,7 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ dataset, onStart }) =>
             💬 Type A, B, C or D in the chat to lock in your answer before the timer elapses!
           </p>
           <p className="text-[11px] text-slate-400 font-medium tracking-wider">
-            Subscribe, Like & Share for more Bible study challenges | © Blessing Chigozie
+            Faith-based Scripture Challenge | © Blessing Chigozie
           </p>
         </div>
       </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Question, PlaybackState } from '../types';
-import { CountdownTimer } from './CountdownTimer';
 
 interface QuestionRendererProps {
   question: Question;
@@ -105,12 +104,12 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
             </span>
             <div className="scale-90 origin-right sm:origin-center">
               {playbackState === 'countdown' ? (
-                <CountdownTimer
-                  durationSeconds={countdownTime}
-                  isActive={true}
-                  onComplete={onCountdownComplete}
-                  sfxVolume={sfxVolume}
-                />
+                <div className="flex items-center space-x-2 bg-rose-500/10 border border-rose-500/30 backdrop-blur-md px-3.5 py-1.5 rounded-2xl shadow-xl">
+                  <div className="w-6 h-6 rounded-full bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-300 font-mono text-xs font-bold animate-pulse">
+                    {countdownTime}s
+                  </div>
+                  <span className="text-xs font-semibold text-rose-300">Countdown Active</span>
+                </div>
               ) : (
                 <div className="flex items-center space-x-2 bg-slate-900/90 border border-slate-800 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl">
                   <div className="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 font-mono text-sm font-bold animate-pulse">

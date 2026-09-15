@@ -77,7 +77,7 @@ export const HeaderControls: React.FC<HeaderControlsProps> = ({
         <button
           onClick={onToggleProductionMode}
           className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition flex items-center space-x-1.5 ${isProductionMode ? 'bg-amber-500/20 border-amber-500/40 text-amber-300' : 'bg-slate-900/80 hover:bg-slate-800 border-slate-700/60 text-slate-300'}`}
-          title="Toggle YouTube Recording Production Mode"
+          title="Toggle Production Recording Mode"
         >
           <span className={`w-2 h-2 rounded-full ${isProductionMode ? 'bg-amber-400 animate-pulse' : 'bg-slate-500'}`} />
           <span className="hidden md:inline">{isProductionMode ? 'Rec Mode' : 'Standard'}</span>

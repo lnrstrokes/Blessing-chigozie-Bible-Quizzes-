@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { Sparkles } from 'lucide-react';
 import { QuizDataset, QuizSettings, PlaybackState, AudioSettings } from './types';
 import { testDataset, masterDataset, shuffleQuestionOptions } from './data/datasets';
 import { audioManager } from './utils/audio';
@@ -14,7 +15,7 @@ import { DatasetModal } from './components/DatasetModal';
 import { PreviewPanel } from './components/PreviewPanel';
 
 export default function App() {
-  const [dataset, setDataset] = useState<QuizDataset>(testDataset);
+  const [dataset, setDataset] = useState<QuizDataset>(masterDataset);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [playbackState, setPlaybackState] = useState<PlaybackState>('intro');
   const [showProductionControls, setShowProductionControls] = useState<boolean>(true);
@@ -29,7 +30,7 @@ export default function App() {
     thinkingTime: 15,
     countdownTime: 10,
     answerRevealTime: 5,
-    transitionTime: 5,
+    transitionTime: 2,
     showExplanation: true,
     autoPlay: true,
   });
@@ -77,14 +78,40 @@ export default function App() {
   // Progression logic timer refs
   const timerRef = useRef<number | null>(null);
 
-  const clearCurrentTimer = () => {
-    if (timerRef.current) {
+  const clearCurrentTimer = useCallback(() => {
+    if (timerRef.current !== null) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
-  };
+  }, []);
+
+  const advanceToNextQuestion = useCallback(() => {
+    clearCurrentTimer();
+    setIsMilestoneActive(false);
+
+    setCurrentIndex((prevIndex) => {
+      const nextIdx = prevIndex + 1;
+
+      // If all questions in dataset are consumed, proceed to outro (auto-reshuffles after 10s)
+      if (nextIdx >= dataset.questions.length) {
+        setPlaybackState('outro');
+        return prevIndex;
+      }
+
+      // Check for milestone every 10 questions (after completing 10, 20, 30...)
+      if (nextIdx % 10 === 0) {
+        setIsMilestoneActive(true);
+        setPlaybackState('milestone');
+      } else {
+        setPlaybackState('thinking');
+      }
+
+      return nextIdx;
+    });
+  }, [dataset.questions.length, clearCurrentTimer]);
 
   const startQuiz = () => {
+    clearCurrentTimer();
     setCurrentIndex(0);
     setCumulativeCount(1);
     setPlaybackState('thinking');
@@ -113,7 +140,7 @@ export default function App() {
     setCumulativeCount(prev => prev + 1); // Increment marathon session counter
     setPlaybackState('thinking');
     setIsMilestoneActive(false);
-  }, [dataset.questions]);
+  }, [dataset.questions, clearCurrentTimer]);
 
   const pauseQuiz = () => {
     clearCurrentTimer();
@@ -121,6 +148,7 @@ export default function App() {
   };
 
   const resumeQuiz = () => {
+    clearCurrentTimer();
     setPlaybackState('thinking');
   };
 
@@ -133,90 +161,50 @@ export default function App() {
   };
 
   const handleNext = useCallback(() => {
-    clearCurrentTimer();
-    setIsMilestoneActive(false);
+    advanceToNextQuestion();
+  }, [advanceToNextQuestion]);
 
-    if (currentIndex < dataset.questions.length - 1) {
-      const nextIdx = currentIndex + 1;
-      // Check for milestone every 10 questions (e.g. 10, 20, 30...)
-      if ((nextIdx + 1) % 10 === 0 && nextIdx + 1 < dataset.questions.length) {
-        setCurrentIndex(nextIdx);
-        setPlaybackState('milestone');
-      } else {
-        setCurrentIndex(nextIdx);
-        setPlaybackState('thinking');
-      }
-    } else {
-      setPlaybackState('outro');
-    }
-  }, [currentIndex, dataset.questions.length]);
-
-  // Handle Thinking Period -> Countdown Timer transition
+  // Single Active Timer Manager:
+  // Guarantees strictly ONE active timer exists at any point in time.
+  // Thinking (15s), Reveal (5s), and Milestone (4s) use timerRef.current.
+  // Countdown (10s) and Transition (2s) are driven exclusively by the CountdownTimer component.
   useEffect(() => {
+    clearCurrentTimer();
+
     if (playbackState === 'thinking') {
-      clearCurrentTimer();
       timerRef.current = window.setTimeout(() => {
         setPlaybackState('countdown');
       }, settings.thinkingTime * 1000);
-    }
-    return () => clearCurrentTimer();
-  }, [playbackState, settings.thinkingTime]);
-
-  // Handle Countdown Period -> Reveal transition (Safety fallback)
-  useEffect(() => {
-    if (playbackState === 'countdown') {
-      clearCurrentTimer();
-      timerRef.current = window.setTimeout(() => {
-        setPlaybackState('reveal');
-      }, (settings.countdownTime + 1) * 1000);
-    }
-    return () => clearCurrentTimer();
-  }, [playbackState, settings.countdownTime]);
-
-  // Handle Reveal Period -> Transition transition
-  useEffect(() => {
-    if (playbackState === 'reveal') {
-      clearCurrentTimer();
+    } else if (playbackState === 'reveal') {
       timerRef.current = window.setTimeout(() => {
         setPlaybackState('transition');
       }, settings.answerRevealTime * 1000);
-    }
-    return () => clearCurrentTimer();
-  }, [playbackState, settings.answerRevealTime]);
-
-  // Handle Transition Period -> Next Question transition
-  useEffect(() => {
-    if (playbackState === 'transition') {
-      clearCurrentTimer();
-      timerRef.current = window.setTimeout(() => {
-        handleNext();
-      }, settings.transitionTime * 1000);
-    }
-    return () => clearCurrentTimer();
-  }, [playbackState, settings.transitionTime, handleNext]);
-
-  // Handle Milestone -> Thinking transition
-  useEffect(() => {
-    if (playbackState === 'milestone') {
-      clearCurrentTimer();
+    } else if (playbackState === 'milestone') {
       setIsMilestoneActive(true);
       timerRef.current = window.setTimeout(() => {
         setIsMilestoneActive(false);
         setPlaybackState('thinking');
       }, 4000);
     }
+
     return () => clearCurrentTimer();
-  }, [playbackState]);
+  }, [playbackState, settings.thinkingTime, settings.answerRevealTime, clearCurrentTimer]);
 
   const handleCountdownComplete = useCallback(() => {
     clearCurrentTimer();
     setPlaybackState('reveal');
-  }, []);
+  }, [clearCurrentTimer]);
 
   const handleTransitionComplete = useCallback(() => {
     clearCurrentTimer();
-    handleNext();
-  }, [handleNext]);
+    advanceToNextQuestion();
+  }, [clearCurrentTimer, advanceToNextQuestion]);
+
+  const handleMilestoneContinue = useCallback(() => {
+    clearCurrentTimer();
+    setIsMilestoneActive(false);
+    setPlaybackState('thinking');
+  }, [clearCurrentTimer]);
 
   const currentQuestion = dataset.questions[currentIndex] || dataset.questions[0];
 
@@ -250,16 +238,18 @@ export default function App() {
         {/* Milestone Screen */}
         {isMilestoneActive && (
           <MilestoneScreen
-            questionNumber={currentIndex + 1}
+            questionNumber={currentIndex || 10}
             totalQuestions={dataset.questions.length}
             sfxVolume={audioSettings.sfxVolume}
+            onContinue={handleMilestoneContinue}
+            questions={dataset.questions}
           />
         )}
 
         {/* Quiz Question / Countdown / Reveal / Transition Screen */}
         {(playbackState === 'thinking' || playbackState === 'countdown' || playbackState === 'reveal' || playbackState === 'transition') && (
           <div className="w-full flex flex-col items-center justify-center space-y-2 sm:space-y-4 animate-fade-in my-auto">
-            {playbackState !== 'reveal' ? (
+            {playbackState === 'thinking' || playbackState === 'countdown' ? (
               <QuestionRenderer
                 question={currentQuestion}
                 currentIndex={currentIndex}
@@ -271,12 +261,27 @@ export default function App() {
                 sfxVolume={audioSettings.sfxVolume}
                 cumulativeCount={cumulativeCount}
               />
-            ) : (
+            ) : playbackState === 'reveal' ? (
               <AnswerReveal
                 question={currentQuestion}
                 sfxVolume={audioSettings.sfxVolume}
               />
-            )}
+            ) : playbackState === 'transition' ? (
+              <div className="w-full max-w-2xl bg-slate-900/90 border border-slate-800 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-2xl flex flex-col items-center justify-center space-y-3 my-auto text-center animate-fade-in">
+                <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+                  <Sparkles className="w-6 h-6 animate-pulse" />
+                </div>
+                <span className="text-xs font-semibold tracking-widest text-amber-400 uppercase">
+                  Next Challenge Coming Up
+                </span>
+                <h3 className="font-cinzel text-2xl sm:text-3xl font-bold text-slate-100">
+                  Preparing Question {Math.min(currentIndex + 2, dataset.questions.length)} of {dataset.questions.length}
+                </h3>
+                <p className="text-slate-400 text-sm max-w-md">
+                  Reflect on the scriptures and prepare to lock in your answer in the chat!
+                </p>
+              </div>
+            ) : null}
 
             {/* Countdown or Transition Box */}
             <div className="flex items-center justify-center min-h-[60px] sm:min-h-[90px]">
@@ -364,10 +369,12 @@ export default function App() {
         dataset={dataset}
         currentIndex={currentIndex}
         onJumpToQuestion={(idx) => {
+          clearCurrentTimer();
           setCurrentIndex(idx);
           setPlaybackState('thinking');
         }}
         onTestState={(state) => {
+          clearCurrentTimer();
           if (state === 'intro') setPlaybackState('intro');
           if (state === 'countdown') {
             setPlaybackState('countdown');
