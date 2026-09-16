@@ -104,6 +104,168 @@ class AudioManager {
     } catch {}
   }
 
+  // ==========================================
+  // BIBLE VERSE COMPANION STRATEGIC AUDIO CUES
+  // ==========================================
+  public playHookEntrance() {
+    this.initContext();
+    if (!this.ctx || !this.sfxGain || this.isMuted) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      // Warm contemplative two-tone swell
+      [329.63, 493.88].forEach((freq, idx) => {
+        if (!this.ctx || !this.sfxGain) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+
+        gain.gain.setValueAtTime(0.001, now + idx * 0.08);
+        gain.gain.linearRampToValueAtTime(0.18, now + 0.2 + idx * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2 + idx * 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.sfxGain);
+
+        osc.start(now + idx * 0.08);
+        osc.stop(now + 1.3 + idx * 0.08);
+      });
+    } catch {}
+  }
+
+  public playRestrainedTick() {
+    this.initContext();
+    if (!this.ctx || !this.sfxGain || this.isMuted) return;
+
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(520, this.ctx.currentTime);
+
+      gain.gain.setValueAtTime(0.14, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+      osc.connect(gain);
+      gain.connect(this.sfxGain);
+
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.09);
+    } catch {}
+  }
+
+  public playAnticipationCue() {
+    this.initContext();
+    if (!this.ctx || !this.sfxGain || this.isMuted) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      // Ascending gentle transition from situation to Word
+      [349.23, 440.00, 523.25].forEach((freq, idx) => {
+        if (!this.ctx || !this.sfxGain) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+
+        gain.gain.setValueAtTime(0.001, now + idx * 0.12);
+        gain.gain.linearRampToValueAtTime(0.2, now + 0.15 + idx * 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9 + idx * 0.12);
+
+        osc.connect(gain);
+        gain.connect(this.sfxGain);
+
+        osc.start(now + idx * 0.12);
+        osc.stop(now + 1.0 + idx * 0.12);
+      });
+    } catch {}
+  }
+
+  public playScriptureReveal() {
+    this.initContext();
+    if (!this.ctx || !this.sfxGain || this.isMuted) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      // Reverent sacred chord (C major / E / G / C)
+      [261.63, 329.63, 392.00, 523.25].forEach((freq, idx) => {
+        if (!this.ctx || !this.sfxGain) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+
+        gain.gain.setValueAtTime(0.001, now + idx * 0.06);
+        gain.gain.linearRampToValueAtTime(0.22, now + 0.2 + idx * 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.6 + idx * 0.06);
+
+        osc.connect(gain);
+        gain.connect(this.sfxGain);
+
+        osc.start(now + idx * 0.06);
+        osc.stop(now + 1.7 + idx * 0.06);
+      });
+    } catch {}
+  }
+
+  public playResponseLift() {
+    this.initContext();
+    if (!this.ctx || !this.sfxGain || this.isMuted) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      // Brighter engaging double chime
+      [587.33, 880.00].forEach((freq, idx) => {
+        if (!this.ctx || !this.sfxGain) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+
+        gain.gain.setValueAtTime(0.18, now + idx * 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6 + idx * 0.1);
+
+        osc.connect(gain);
+        gain.connect(this.sfxGain);
+
+        osc.start(now + idx * 0.1);
+        osc.stop(now + 0.7 + idx * 0.1);
+      });
+    } catch {}
+  }
+
+  public playTakeawayCue() {
+    this.initContext();
+    if (!this.ctx || !this.sfxGain || this.isMuted) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      [440.00, 659.25, 880.00].forEach((freq, idx) => {
+        if (!this.ctx || !this.sfxGain) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+
+        gain.gain.setValueAtTime(0.2, now + idx * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2 + idx * 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.sfxGain);
+
+        osc.start(now + idx * 0.08);
+        osc.stop(now + 1.3 + idx * 0.08);
+      });
+    } catch {}
+  }
+
   public playCorrectReveal() {
     this.initContext();
     if (!this.ctx || !this.sfxGain || this.isMuted) return;

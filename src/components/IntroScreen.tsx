@@ -6,18 +6,31 @@ interface IntroScreenProps {
   dataset: QuizDataset;
   onStart: () => void;
   onSkipIntro?: () => void;
+  onSwitchToCompanion?: () => void;
 }
 
-export const IntroScreen: React.FC<IntroScreenProps> = ({ dataset, onStart }) => {
+export const IntroScreen: React.FC<IntroScreenProps> = ({ dataset, onStart, onSwitchToCompanion }) => {
   return (
     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/40 text-center px-4 sm:px-6 overflow-y-auto">
       {/* Decorative ambient lighting */}
       <div className="absolute w-[600px] h-[600px] bg-amber-600/10 rounded-full blur-3xl pointer-events-none animate-pulse" />
 
       <div className="relative z-10 max-w-3xl mx-auto my-auto space-y-4 sm:space-y-6 md:space-y-7 py-4 sm:py-6">
-        <div className="inline-flex items-center space-x-2 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] sm:text-xs font-semibold uppercase tracking-widest font-cinzel">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Blessing Chigozie Bible Challenge</span>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <div className="inline-flex items-center space-x-2 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] sm:text-xs font-semibold uppercase tracking-widest font-cinzel">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Blessing Chigozie Bible Challenge</span>
+          </div>
+
+          {onSwitchToCompanion && (
+            <button
+              onClick={onSwitchToCompanion}
+              className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-slate-700/70 text-slate-300 hover:text-amber-300 text-[11px] font-medium transition shadow-sm"
+              title="Switch to Bible Verse Companion Mode"
+            >
+              <span>Switch to Verse Companion</span>
+            </button>
+          )}
         </div>
 
         <div className="space-y-2 sm:space-y-3">

@@ -1,7 +1,8 @@
 {
   "name": "Blessing Chigozie Bible Challenge",
-  "description": "A scholarly Bible quiz challenge application by Blessing Chigozie featuring scripture questions, answer reveals, and biblical insights.",
+  "description": "A scholarly Bible quiz challenge and Scripture Verse Companion live studio by Blessing Chigozie featuring scripture questions, situational devotionals, answer reveals, and biblical insights.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
+
 
