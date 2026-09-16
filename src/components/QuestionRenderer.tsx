@@ -18,10 +18,6 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
   currentIndex,
   totalQuestions,
   playbackState,
-  countdownTime = 10,
-  onCountdownComplete = () => {},
-  sfxVolume = 0.7,
-  cumulativeCount,
 }) => {
   const progressPercent = ((currentIndex + 1) / totalQuestions) * 100;
 
@@ -45,121 +41,116 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
   const badge = getDifficultyBadge(question.difficulty);
 
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-2 md:space-y-3">
-      {/* Persistent Creator Brand Header */}
-      <div className="flex items-center justify-between bg-slate-900/80 border border-slate-800 px-3.5 py-1.5 rounded-2xl shadow-md">
-        <div className="flex items-center space-x-2">
-          <div className="w-6 h-6 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-cinzel font-bold text-xs">
-            ✝
-          </div>
-          <div>
-            <h4 className="font-cinzel text-[10px] font-bold tracking-widest text-amber-300 uppercase">BLESSING CHIGOZIE</h4>
-            <p className="text-[8px] text-slate-400 font-medium tracking-wide">BIBLE CHALLENGE</p>
-          </div>
-        </div>
-        <div className="flex items-center space-x-3 text-xs text-slate-300 font-medium">
-          <span className="hidden sm:inline font-cinzel text-amber-300">Blessing Chigozie</span>
-          <span className="text-amber-400 font-bold font-mono">
-            Q{currentIndex + 1} / {totalQuestions}
-          </span>
-        </div>
-      </div>
-
-      {/* Top Meta Bar */}
-      <div className="flex items-center justify-between text-xs font-semibold tracking-wider text-slate-400 uppercase">
-        <div className="flex items-center space-x-2.5">
-          <span className="text-amber-400 font-bold font-cinzel">{question.category}</span>
-          <span className="text-slate-600">•</span>
-          <span className={`px-2 py-0.5 rounded-full border text-[11px] font-semibold ${badge.color}`}>
-            {badge.label}
-          </span>
-        </div>
-        <div className="text-amber-300 font-medium text-xs">
-          {playbackState === 'thinking' ? 'Prepare Your Answer' : 'Countdown Active'}
-        </div>
-      </div>
-
-      {/* Progress Bar */}
-      <div className="w-full h-1 bg-slate-800/80 rounded-full overflow-hidden">
-        <div
-          className="h-full bg-gradient-to-r from-amber-600 to-amber-400 transition-all duration-500 ease-out"
-          style={{ width: `${progressPercent}%` }}
-        />
-      </div>
-
-      {/* Question Card */}
-      <div className="bg-slate-900/90 border border-slate-800 backdrop-blur-xl p-4 sm:p-6 md:p-8 rounded-3xl shadow-2xl relative overflow-hidden space-y-3">
-        <div className="absolute top-0 left-0 w-2 h-full bg-amber-500/80" />
-
-        {/* Top Row inside card: Chat CTA + Countdown Timer */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-slate-950/60 border border-slate-800/80 p-3.5 rounded-2xl">
-          <div className="flex items-center space-x-2 text-amber-300 text-xs font-semibold">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-            <span>💬 Lock in your answer — Type A, B, C or D in the chat!</span>
-          </div>
-
-          <div className="flex items-center space-x-2 self-end sm:self-auto">
-            <span className="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">
-              {playbackState === 'thinking' ? 'Thinking Time:' : 'Countdown:'}
-            </span>
-            <div className="scale-90 origin-right sm:origin-center">
-              {playbackState === 'countdown' ? (
-                <div className="flex items-center space-x-2 bg-rose-500/10 border border-rose-500/30 backdrop-blur-md px-3.5 py-1.5 rounded-2xl shadow-xl">
-                  <div className="w-6 h-6 rounded-full bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-300 font-mono text-xs font-bold animate-pulse">
-                    {countdownTime}s
-                  </div>
-                  <span className="text-xs font-semibold text-rose-300">Countdown Active</span>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-2 bg-slate-900/90 border border-slate-800 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl">
-                  <div className="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 font-mono text-sm font-bold animate-pulse">
-                    15
-                  </div>
-                  <span className="text-xs font-semibold text-amber-300">Read & Prepare</span>
-                </div>
-              )}
+    <div className="w-full max-w-5xl mx-auto flex flex-col space-y-2 sm:space-y-3">
+      {/* ─────────────────────────────────────────────────────────────
+          1. TOP ~30%: QUESTION AREA
+          ───────────────────────────────────────────────────────────── */}
+      <div className="space-y-1.5 sm:space-y-2">
+        {/* Persistent Creator Brand Header */}
+        <div className="flex items-center justify-between bg-slate-900/80 border border-slate-800 px-3.5 py-1.5 rounded-2xl shadow-md">
+          <div className="flex items-center space-x-2">
+            <div className="w-6 h-6 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-cinzel font-bold text-xs">
+              ✝
+            </div>
+            <div>
+              <h4 className="font-cinzel text-[10px] font-bold tracking-widest text-amber-300 uppercase">
+                BLESSING CHIGOZIE
+              </h4>
+              <p className="text-[8px] text-slate-400 font-medium tracking-wide">BIBLE CHALLENGE</p>
             </div>
           </div>
+          <div className="flex items-center space-x-2.5 text-xs text-slate-300 font-medium">
+            <span className="hidden sm:inline font-cinzel text-amber-300">Blessing Chigozie</span>
+            <span className="text-amber-400 font-bold font-mono bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-lg">
+              Q{currentIndex + 1} / {totalQuestions}
+            </span>
+          </div>
         </div>
 
-        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-slate-100 leading-snug tracking-tight break-words">
-          {question.question}
-        </h2>
+        {/* Top Meta Bar */}
+        <div className="flex items-center justify-between text-xs font-semibold tracking-wider text-slate-400 uppercase px-1">
+          <div className="flex items-center space-x-2">
+            <span className="text-amber-400 font-bold font-cinzel">{question.category}</span>
+            <span className="text-slate-600">•</span>
+            <span className={`px-2 py-0.5 rounded-full border text-[11px] font-semibold ${badge.color}`}>
+              {badge.label}
+            </span>
+          </div>
+          <div className="text-amber-300 font-medium text-xs">
+            {playbackState === 'thinking' ? 'Prepare Your Answer' : 'Countdown Active'}
+          </div>
+        </div>
 
-        {/* Answer Options Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          {question.options.map((option, idx) => {
-            const letter = String.fromCharCode(65 + idx);
-            const isRevealed = playbackState === 'reveal';
-            const isCorrect = idx === question.answerIndex;
+        {/* Progress Bar */}
+        <div className="w-full h-1 bg-slate-800/80 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-amber-600 to-amber-400 transition-all duration-500 ease-out"
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
 
-            let cardStyle = 'bg-slate-800/50 border-slate-700/60 text-slate-200 hover:bg-slate-800';
+        {/* Question Text Card */}
+        <div className="bg-slate-900/90 border border-slate-800 backdrop-blur-xl p-3.5 sm:p-5 md:p-6 rounded-3xl shadow-xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-2 h-full bg-amber-500/80" />
+          <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-slate-100 leading-snug tracking-tight break-words">
+            {question.question}
+          </h2>
+        </div>
+      </div>
 
-            if (isRevealed) {
-              if (isCorrect) {
-                cardStyle = 'bg-emerald-950/80 border-emerald-500 text-emerald-100 shadow-lg ring-2 ring-emerald-500/50';
-              } else {
-                cardStyle = 'bg-slate-900/40 border-slate-800/50 text-slate-500 opacity-50';
-              }
+      {/* ─────────────────────────────────────────────────────────────
+          2. MIDDLE AREA: ANSWER SAFE ZONE (COMPACT 2×2 GRID)
+             Positioned in the UPPER-MIDDLE portion of the screen.
+             Does NOT sit in the lower 40% of the screen.
+             [ A ]   [ B ]
+             [ C ]   [ D ]
+          ───────────────────────────────────────────────────────────── */}
+      <div className="w-full grid grid-cols-2 gap-2.5 sm:gap-3.5 md:gap-4">
+        {question.options.map((option, idx) => {
+          const letter = String.fromCharCode(65 + idx);
+          const isRevealed = playbackState === 'reveal';
+          const isCorrect = idx === question.answerIndex;
+
+          let cardStyle = 'bg-slate-900/90 border-slate-700/80 text-slate-100 hover:border-amber-500/40';
+
+          if (isRevealed) {
+            if (isCorrect) {
+              cardStyle = 'bg-emerald-950/90 border-emerald-400 text-emerald-100 ring-2 ring-emerald-500/60 shadow-lg';
+            } else {
+              cardStyle = 'bg-slate-950/40 border-slate-800/40 text-slate-500 opacity-40';
             }
+          }
 
-            return (
+          return (
+            <div
+              key={idx}
+              className={`flex items-center p-2.5 sm:p-3.5 md:p-4 rounded-2xl border transition-all duration-200 shadow-md min-h-[48px] sm:min-h-[58px] ${cardStyle}`}
+            >
               <div
-                key={idx}
-                className={`flex items-center p-3 md:p-3.5 rounded-2xl border transition-all duration-300 ${cardStyle}`}
+                className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center font-cinzel font-bold text-xs sm:text-sm mr-2.5 sm:mr-3 shrink-0 shadow-inner transition-colors ${
+                  isRevealed && isCorrect
+                    ? 'bg-emerald-500 text-slate-950'
+                    : 'bg-slate-800 border border-amber-500/40 text-amber-300'
+                }`}
               >
-                <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs mr-3 shrink-0 transition-colors ${isRevealed && isCorrect ? 'bg-emerald-500 text-slate-950' : 'bg-slate-700/60 text-amber-400'}`}>
-                  {letter}
-                </div>
-                <span className="text-xs sm:text-sm md:text-base font-medium leading-relaxed">
-                  {option}
-                </span>
+                {letter}
               </div>
-            );
-          })}
-        </div>
+              <span className="text-xs sm:text-sm md:text-base font-semibold leading-snug break-words">
+                {option}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ─────────────────────────────────────────────────────────────
+          3. LOWER AREA: CHAT CTA
+             Critical answers remain safely above this area.
+          ───────────────────────────────────────────────────────────── */}
+      <div className="flex items-center justify-center space-x-2 bg-slate-950/70 border border-slate-800/80 px-4 py-2 rounded-2xl text-amber-300 text-xs sm:text-sm font-semibold shadow-inner mx-auto">
+        <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+        <span>Type A, B, C or D in the chat to answer</span>
       </div>
     </div>
   );
 };
-

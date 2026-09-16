@@ -27,9 +27,9 @@ export default function App() {
   const [cumulativeCount, setCumulativeCount] = useState<number>(1);
 
   const [settings] = useState<QuizSettings>({
-    thinkingTime: 15,
+    thinkingTime: 20,
     countdownTime: 10,
-    answerRevealTime: 5,
+    answerRevealTime: 10,
     transitionTime: 2,
     showExplanation: true,
     autoPlay: true,
@@ -166,16 +166,12 @@ export default function App() {
 
   // Single Active Timer Manager:
   // Guarantees strictly ONE active timer exists at any point in time.
-  // Thinking (15s), Reveal (5s), and Milestone (4s) use timerRef.current.
-  // Countdown (10s) and Transition (2s) are driven exclusively by the CountdownTimer component.
+  // Thinking (20s), Countdown (10s), and Transition (2s) are driven exclusively by the CountdownTimer component.
+  // Reveal (10s) and Milestone (4s) use timerRef.current.
   useEffect(() => {
     clearCurrentTimer();
 
-    if (playbackState === 'thinking') {
-      timerRef.current = window.setTimeout(() => {
-        setPlaybackState('countdown');
-      }, settings.thinkingTime * 1000);
-    } else if (playbackState === 'reveal') {
+    if (playbackState === 'reveal') {
       timerRef.current = window.setTimeout(() => {
         setPlaybackState('transition');
       }, settings.answerRevealTime * 1000);
@@ -188,7 +184,7 @@ export default function App() {
     }
 
     return () => clearCurrentTimer();
-  }, [playbackState, settings.thinkingTime, settings.answerRevealTime, clearCurrentTimer]);
+  }, [playbackState, settings.answerRevealTime, clearCurrentTimer]);
 
   const handleCountdownComplete = useCallback(() => {
     clearCurrentTimer();
@@ -223,10 +219,11 @@ export default function App() {
         onToggleProductionMode={() => setIsProductionMode(!isProductionMode)}
         isFullscreen={isFullscreen}
         onToggleFullscreen={toggleFullscreen}
+        playbackState={playbackState}
       />
 
-      {/* Main Stage (16:9 Landscape optimized container) */}
-      <main className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video flex flex-col items-center justify-between px-3 sm:px-8 md:px-16 py-3 sm:py-6 overflow-hidden">
+      {/* Main Stage (16:9 Landscape presentation container) */}
+      <main className="relative w-full h-full max-w-[1920px] max-h-[1080px] md:aspect-video flex flex-col items-center justify-between px-3 sm:px-8 md:px-16 py-3 sm:py-6 overflow-hidden">
         {/* Intro Screen */}
         {playbackState === 'intro' && (
           <IntroScreen
@@ -285,16 +282,11 @@ export default function App() {
 
             {/* Countdown or Transition Box */}
             <div className="flex items-center justify-center min-h-[60px] sm:min-h-[90px]">
-              {playbackState === 'thinking' && (
-                <div className="text-slate-400 text-xs sm:text-sm font-medium animate-pulse px-4 text-center">
-                  Read the question and prepare your answer...
-                </div>
-              )}
-
-              {playbackState === 'countdown' && (
+              {(playbackState === 'thinking' || playbackState === 'countdown') && (
                 <CountdownTimer
-                  durationSeconds={settings.countdownTime}
-                  isActive={playbackState === 'countdown'}
+                  key={`${playbackState}-${currentIndex}`}
+                  durationSeconds={playbackState === 'countdown' ? settings.countdownTime : settings.thinkingTime}
+                  isActive={playbackState === 'thinking' || playbackState === 'countdown'}
                   onComplete={handleCountdownComplete}
                   sfxVolume={audioSettings.sfxVolume}
                 />
@@ -306,6 +298,7 @@ export default function App() {
                     Next Question Starting In
                   </div>
                   <CountdownTimer
+                    key={`transition-${currentIndex}`}
                     durationSeconds={settings.transitionTime}
                     isActive={playbackState === 'transition'}
                     onComplete={handleTransitionComplete}

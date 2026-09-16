@@ -55,7 +55,7 @@ export const AnswerReveal: React.FC<AnswerRevealProps> = ({ question, sfxVolume 
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-cinzel text-amber-100 tracking-wide">
             {question.answer}
           </h3>
-          <p className="text-xs text-slate-400 italic line-clamp-1 pt-0.5">
+          <p className="text-xs sm:text-sm text-slate-300 italic pt-1 leading-snug">
             "{question.question}"
           </p>
         </div>

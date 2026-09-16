@@ -39,8 +39,8 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
           return 0;
         }
         const nextVal = prev - 1;
-        // Play tick sound (final 3 seconds get emphasis)
-        const isFinal = nextVal <= 3;
+        // Play tick sound (final 5 seconds get emphasis)
+        const isFinal = nextVal <= 5;
         audioManager.playTick(isFinal);
         return nextVal;
       });
@@ -58,15 +58,15 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
     }
   }, [timeLeft, isActive]);
 
-  const radius = 36;
+  const radius = 22;
   const circumference = 2 * Math.PI * radius;
   const progress = (timeLeft / durationSeconds) * circumference;
-  const isUrgent = timeLeft <= 3;
+  const isUrgent = timeLeft <= 5;
 
   return (
     <div className="flex items-center space-x-4 bg-slate-900/90 border border-slate-800 backdrop-blur-md px-6 py-3 rounded-2xl shadow-xl">
       <div className="relative w-14 h-14 flex items-center justify-center">
-        <svg className="w-full h-full transform -rotate-90">
+        <svg className="w-full h-full transform -rotate-90" viewBox="0 0 56 56">
           <circle
             cx="28"
             cy="28"
