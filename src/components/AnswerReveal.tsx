@@ -1,21 +1,32 @@
 import React, { useEffect } from 'react';
 import { Question } from '../types';
 import { audioManager } from '../utils/audio';
-import { BookOpen, CheckCircle2, Sparkles } from 'lucide-react';
+import { BookOpen, CheckCircle2, Sparkles, XCircle } from 'lucide-react';
 
 interface AnswerRevealProps {
   question: Question;
   sfxVolume: number;
+  userSelectedAnswerIndex?: number | null;
 }
 
-export const AnswerReveal: React.FC<AnswerRevealProps> = ({ question, sfxVolume }) => {
+export const AnswerReveal: React.FC<AnswerRevealProps> = ({ question, sfxVolume, userSelectedAnswerIndex }) => {
   useEffect(() => {
     audioManager.setSfxVolume(sfxVolume);
-    audioManager.playCorrectReveal();
-  }, [sfxVolume]);
+    if (userSelectedAnswerIndex !== undefined && userSelectedAnswerIndex !== null) {
+      if (userSelectedAnswerIndex === question.answerIndex) {
+        audioManager.playCorrectAnswer();
+      } else {
+        audioManager.playIncorrectAnswer();
+      }
+    } else {
+      audioManager.playCorrectReveal();
+    }
+  }, [sfxVolume, userSelectedAnswerIndex, question.answerIndex]);
 
   const correctIndex = question.answerIndex;
   const correctLetter = String.fromCharCode(65 + correctIndex); // A, B, C, D
+  const hasUserAnswered = userSelectedAnswerIndex !== undefined && userSelectedAnswerIndex !== null;
+  const isUserCorrect = hasUserAnswered && userSelectedAnswerIndex === correctIndex;
 
   return (
     <div className="w-full max-w-5xl mx-auto bg-slate-900/95 border border-emerald-500/50 backdrop-blur-2xl p-4 sm:p-6 md:p-7 rounded-3xl shadow-2xl animate-fade-in space-y-3 sm:space-y-4 relative overflow-hidden">
@@ -32,9 +43,32 @@ export const AnswerReveal: React.FC<AnswerRevealProps> = ({ question, sfxVolume 
             <p className="text-[9px] text-slate-400 font-medium tracking-wider">BIBLE CHALLENGE</p>
           </div>
         </div>
-        <div className="flex items-center space-x-1.5 bg-emerald-500/15 border border-emerald-500/40 px-3 py-1 rounded-full text-emerald-300 text-xs font-bold tracking-wide">
-          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-          <span>CORRECT ANSWER REVEALED</span>
+        
+        <div className="flex items-center space-x-2">
+          {hasUserAnswered && (
+            <div className={`flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide border ${
+              isUserCorrect 
+                ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300' 
+                : 'bg-rose-500/20 border-rose-400 text-rose-300'
+            }`}>
+              {isUserCorrect ? (
+                <>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>YOU GOT IT RIGHT!</span>
+                </>
+              ) : (
+                <>
+                  <XCircle className="w-3.5 h-3.5 text-rose-400" />
+                  <span>YOU CHOSE {String.fromCharCode(65 + userSelectedAnswerIndex)}</span>
+                </>
+              )}
+            </div>
+          )}
+
+          <div className="flex items-center space-x-1.5 bg-emerald-500/15 border border-emerald-500/40 px-3 py-1 rounded-full text-emerald-300 text-xs font-bold tracking-wide">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+            <span>CORRECT ANSWER</span>
+          </div>
         </div>
       </div>
 
@@ -86,7 +120,7 @@ export const AnswerReveal: React.FC<AnswerRevealProps> = ({ question, sfxVolume 
           <span className="font-cinzel text-amber-300/90 font-semibold tracking-wide">Blessing Chigozie Bible Challenge</span>
         </div>
         <div className="hidden sm:block font-mono text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-md">
-          +1 Point Awarded
+          {hasUserAnswered && isUserCorrect ? '+1 Personal Point' : 'Reference Verified'}
         </div>
       </div>
     </div>

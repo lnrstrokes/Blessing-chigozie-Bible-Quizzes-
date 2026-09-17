@@ -7,9 +7,10 @@ interface FinalScreenProps {
   dataset: QuizDataset;
   onRestart: () => void;
   sfxVolume: number;
+  viewerAnswers?: Record<number, number>;
 }
 
-export const FinalScreen: React.FC<FinalScreenProps> = ({ dataset, onRestart, sfxVolume }) => {
+export const FinalScreen: React.FC<FinalScreenProps> = ({ dataset, onRestart, sfxVolume, viewerAnswers }) => {
   const onRestartRef = React.useRef(onRestart);
   useEffect(() => {
     onRestartRef.current = onRestart;
@@ -31,6 +32,12 @@ export const FinalScreen: React.FC<FinalScreenProps> = ({ dataset, onRestart, sf
 
   const maxQ = dataset.questions.length;
   const scale = maxQ / 110;
+
+  const answeredEntries = viewerAnswers ? Object.entries(viewerAnswers) : [];
+  const answeredCount = answeredEntries.length;
+  const correctCount = answeredEntries.filter(
+    ([idxStr, ansIdx]) => dataset.questions[Number(idxStr)]?.answerIndex === ansIdx
+  ).length;
 
   const categories = [
     { range: `${Math.round(90 * scale)}–${maxQ}`, title: 'BIBLE MASTER', desc: 'A profound scholar of the Word!' },
@@ -69,9 +76,18 @@ export const FinalScreen: React.FC<FinalScreenProps> = ({ dataset, onRestart, sf
           <h1 className="font-cinzel text-3xl md:text-5xl font-black text-amber-100 tracking-wider">
             QUIZ COMPLETE!
           </h1>
-          <p className="text-base md:text-lg text-amber-200/80 font-medium font-cinzel">
-            How did you score out of {maxQ} questions?
-          </p>
+          {answeredCount > 0 ? (
+            <div className="inline-flex items-center space-x-2 bg-emerald-500/15 border border-emerald-500/40 px-4 py-2 rounded-2xl text-emerald-300 font-bold font-mono text-sm sm:text-base">
+              <span>Your Personal Score: {correctCount} / {answeredCount} Correct</span>
+              <span className="text-xs bg-emerald-500/20 px-2 py-0.5 rounded-md">
+                {Math.round((correctCount / answeredCount) * 100)}%
+              </span>
+            </div>
+          ) : (
+            <p className="text-base md:text-lg text-amber-200/80 font-medium font-cinzel">
+              How did you score out of {maxQ} questions?
+            </p>
+          )}
         </div>
 
         {/* Score Categories Guide */}

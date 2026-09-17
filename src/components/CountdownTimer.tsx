@@ -52,6 +52,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
   useEffect(() => {
     if (isActive && timeLeft === 0 && !hasTriggeredRef.current) {
       hasTriggeredRef.current = true;
+      audioManager.playFinalCountdownAlert();
       if (onCompleteRef.current) {
         onCompleteRef.current();
       }

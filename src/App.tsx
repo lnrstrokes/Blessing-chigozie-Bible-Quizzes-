@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, MouseEvent } from 'react';
 import { Sparkles } from 'lucide-react';
 import { QuizDataset, QuizSettings, PlaybackState, AudioSettings, AppContentMode, CompanionStep, CompanionScenario } from './types';
-import { testDataset, masterDataset, shuffleQuestionOptions } from './data/datasets';
+import { testDataset, masterDataset, shuffleQuestionOptions, createShuffledSessionDataset } from './data/datasets';
 import { allCompanionScenarios, getStepDuration } from './data/companionData';
 import { audioManager } from './utils/audio';
 import { HeaderControls } from './components/HeaderControls';
@@ -41,7 +41,8 @@ export default function App() {
   // ==========================================
   // QUIZ STATE (Preserved 100% intact)
   // ==========================================
-  const [dataset, setDataset] = useState<QuizDataset>(masterDataset);
+  const [dataset, setDataset] = useState<QuizDataset>(() => createShuffledSessionDataset(masterDataset));
+  const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [playbackState, setPlaybackState] = useState<PlaybackState>('intro');
   const [showProductionControls, setShowProductionControls] = useState<boolean>(true);
@@ -194,6 +195,7 @@ export default function App() {
   }, [companionTimeRemaining, contentMode, isCompanionIntro, isCompanionPlaying, handleCompanionAutoAdvance]);
 
   const startCompanion = () => {
+    audioManager.unlock();
     isAdvancingRef.current = false;
     setIsCompanionIntro(false);
     setCompanionStep('hook');
@@ -398,7 +400,11 @@ export default function App() {
   }, [dataset.questions.length, clearCurrentTimer]);
 
   const startQuiz = () => {
+    audioManager.unlock();
     clearCurrentTimer();
+    const sessionDS = createShuffledSessionDataset(masterDataset);
+    setDataset(sessionDS);
+    setUserAnswers({});
     setCurrentIndex(0);
     setCumulativeCount(1);
     setPlaybackState('thinking');
@@ -406,7 +412,11 @@ export default function App() {
   };
 
   const restartQuiz = () => {
+    audioManager.unlock();
     clearCurrentTimer();
+    const sessionDS = createShuffledSessionDataset(masterDataset);
+    setDataset(sessionDS);
+    setUserAnswers({});
     setCurrentIndex(0);
     setCumulativeCount(1);
     setPlaybackState('intro');
@@ -414,20 +424,24 @@ export default function App() {
   };
 
   const handleRestartOrShuffle = useCallback(() => {
+    audioManager.unlock();
     clearCurrentTimer();
-    // Shuffle dataset questions and randomize options for each question
-    const shuffledQuestions = [...dataset.questions]
-      .sort(() => Math.random() - 0.5)
-      .map(q => shuffleQuestionOptions(q));
-    setDataset(prev => ({
-      ...prev,
-      questions: shuffledQuestions
-    }));
+    const sessionDS = createShuffledSessionDataset(masterDataset);
+    setDataset(sessionDS);
+    setUserAnswers({});
     setCurrentIndex(0);
     setCumulativeCount(prev => prev + 1); // Increment marathon session counter
     setPlaybackState('thinking');
     setIsMilestoneActive(false);
-  }, [dataset.questions, clearCurrentTimer]);
+    audioManager.playTransition();
+  }, [clearCurrentTimer]);
+
+  const handleSelectAnswer = (optionIdx: number) => {
+    setUserAnswers(prev => ({
+      ...prev,
+      [currentIndex]: optionIdx,
+    }));
+  };
 
   const pauseQuiz = () => {
     clearCurrentTimer();
@@ -545,6 +559,7 @@ export default function App() {
                 sfxVolume={audioSettings.sfxVolume}
                 onContinue={handleMilestoneContinue}
                 questions={dataset.questions}
+                viewerAnswers={userAnswers}
               />
             )}
 
@@ -562,11 +577,14 @@ export default function App() {
                     onCountdownComplete={handleCountdownComplete}
                     sfxVolume={audioSettings.sfxVolume}
                     cumulativeCount={cumulativeCount}
+                    selectedAnswerIndex={userAnswers[currentIndex] ?? null}
+                    onSelectAnswer={handleSelectAnswer}
                   />
                 ) : playbackState === 'reveal' ? (
                   <AnswerReveal
                     question={currentQuestion}
                     sfxVolume={audioSettings.sfxVolume}
+                    userSelectedAnswerIndex={userAnswers[currentIndex] ?? null}
                   />
                 ) : playbackState === 'transition' ? (
                   <div className="w-full max-w-2xl bg-slate-900/90 border border-slate-800 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-2xl flex flex-col items-center justify-center space-y-3 my-auto text-center animate-fade-in">
@@ -621,6 +639,7 @@ export default function App() {
                 dataset={dataset}
                 onRestart={handleRestartOrShuffle}
                 sfxVolume={audioSettings.sfxVolume}
+                viewerAnswers={userAnswers}
               />
             )}
           </>
@@ -715,11 +734,9 @@ export default function App() {
         onClose={() => setIsDatasetModalOpen(false)}
         currentDataset={dataset}
         onSelectDataset={(ds) => {
-          const randomizedDS = {
-            ...ds,
-            questions: ds.questions.map(q => shuffleQuestionOptions(q))
-          };
-          setDataset(randomizedDS);
+          const sessionDS = createShuffledSessionDataset(ds);
+          setDataset(sessionDS);
+          setUserAnswers({});
           restartQuiz();
         }}
       />

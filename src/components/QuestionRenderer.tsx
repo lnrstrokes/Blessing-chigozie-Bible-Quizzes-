@@ -1,5 +1,6 @@
 import React from 'react';
 import { Question, PlaybackState } from '../types';
+import { audioManager } from '../utils/audio';
 
 interface QuestionRendererProps {
   question: Question;
@@ -11,6 +12,8 @@ interface QuestionRendererProps {
   onCountdownComplete?: () => void;
   sfxVolume?: number;
   cumulativeCount?: number;
+  selectedAnswerIndex?: number | null;
+  onSelectAnswer?: (index: number) => void;
 }
 
 export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
@@ -18,6 +21,8 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
   currentIndex,
   totalQuestions,
   playbackState,
+  selectedAnswerIndex,
+  onSelectAnswer,
 }) => {
   const progressPercent = ((currentIndex + 1) / totalQuestions) * 100;
 
@@ -39,6 +44,17 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
   };
 
   const badge = getDifficultyBadge(question.difficulty);
+
+  const handleOptionClick = (idx: number) => {
+    // Unlock audio immediately on user tap gesture
+    audioManager.unlock();
+    if (playbackState === 'thinking' || playbackState === 'countdown') {
+      audioManager.playSelectionClick();
+      if (onSelectAnswer) {
+        onSelectAnswer(idx);
+      }
+    }
+  };
 
   return (
     <div className="w-full max-w-5xl mx-auto flex flex-col space-y-2 sm:space-y-3">
@@ -110,12 +126,19 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
           const letter = String.fromCharCode(65 + idx);
           const isRevealed = playbackState === 'reveal';
           const isCorrect = idx === question.answerIndex;
+          const isSelected = selectedAnswerIndex === idx;
 
-          let cardStyle = 'bg-slate-900/90 border-slate-700/80 text-slate-100 hover:border-amber-500/40';
+          let cardStyle = 'bg-slate-900/90 border-slate-700/80 text-slate-100 hover:border-amber-500/60 cursor-pointer active:scale-[0.99]';
+
+          if (isSelected && !isRevealed) {
+            cardStyle = 'bg-amber-950/40 border-amber-400 text-amber-100 ring-2 ring-amber-400/80 shadow-md';
+          }
 
           if (isRevealed) {
             if (isCorrect) {
               cardStyle = 'bg-emerald-950/90 border-emerald-400 text-emerald-100 ring-2 ring-emerald-500/60 shadow-lg';
+            } else if (isSelected) {
+              cardStyle = 'bg-rose-950/40 border-rose-500/80 text-rose-200 ring-1 ring-rose-500/50';
             } else {
               cardStyle = 'bg-slate-950/40 border-slate-800/40 text-slate-500 opacity-40';
             }
@@ -124,20 +147,35 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
           return (
             <div
               key={idx}
+              onClick={() => handleOptionClick(idx)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  handleOptionClick(idx);
+                }
+              }}
               className={`flex items-center p-2.5 sm:p-3.5 md:p-4 rounded-2xl border transition-all duration-200 shadow-md min-h-[48px] sm:min-h-[58px] ${cardStyle}`}
             >
               <div
                 className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center font-cinzel font-bold text-xs sm:text-sm mr-2.5 sm:mr-3 shrink-0 shadow-inner transition-colors ${
                   isRevealed && isCorrect
                     ? 'bg-emerald-500 text-slate-950'
+                    : isSelected && !isRevealed
+                    ? 'bg-amber-400 text-slate-950'
                     : 'bg-slate-800 border border-amber-500/40 text-amber-300'
                 }`}
               >
                 {letter}
               </div>
-              <span className="text-xs sm:text-sm md:text-base font-semibold leading-snug break-words">
+              <span className="text-xs sm:text-sm md:text-base font-semibold leading-snug break-words flex-1">
                 {option}
               </span>
+              {isSelected && !isRevealed && (
+                <span className="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-500/30 px-2 py-0.5 rounded-full ml-2">
+                  Selected
+                </span>
+              )}
             </div>
           );
         })}
@@ -149,7 +187,7 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
           ───────────────────────────────────────────────────────────── */}
       <div className="flex items-center justify-center space-x-2 bg-slate-950/70 border border-slate-800/80 px-4 py-2 rounded-2xl text-amber-300 text-xs sm:text-sm font-semibold shadow-inner mx-auto">
         <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-        <span>Type A, B, C or D in the chat to answer</span>
+        <span>Tap an option or type A, B, C or D in chat to lock in your answer</span>
       </div>
     </div>
   );

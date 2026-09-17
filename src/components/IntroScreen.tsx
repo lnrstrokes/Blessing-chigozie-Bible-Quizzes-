@@ -1,6 +1,7 @@
 import React from 'react';
 import { Play, Sparkles } from 'lucide-react';
 import { QuizDataset } from '../types';
+import { audioManager } from '../utils/audio';
 
 interface IntroScreenProps {
   dataset: QuizDataset;
@@ -10,6 +11,10 @@ interface IntroScreenProps {
 }
 
 export const IntroScreen: React.FC<IntroScreenProps> = ({ dataset, onStart, onSwitchToCompanion }) => {
+  const handleStartClick = () => {
+    audioManager.unlock();
+    onStart();
+  };
   return (
     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/40 text-center px-4 sm:px-6 overflow-y-auto">
       {/* Decorative ambient lighting */}
@@ -62,7 +67,7 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ dataset, onStart, onSw
 
         <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
           <button
-            onClick={onStart}
+            onClick={handleStartClick}
             className="group relative inline-flex items-center space-x-3 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-7 sm:px-8 py-3.5 sm:py-4 rounded-2xl text-base sm:text-lg shadow-xl shadow-amber-500/20 transition transform hover:-translate-y-0.5 active:translate-y-0"
           >
             <Play className="w-5 h-5 fill-slate-950 group-hover:scale-110 transition" />

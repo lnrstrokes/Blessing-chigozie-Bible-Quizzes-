@@ -1329,10 +1329,541 @@ const generateMasterQuestions = (): Question[] => {
       difficulty: 'medium',
       category: 'Gospels',
       explanation: 'But the Lord answered her, "Martha, Martha, you are anxious and troubled about many things."'
+    },
+    // --- EXPANDED HIGH-QUALITY BIBLE QUESTIONS (OLD & NEW TESTAMENT) ---
+    {
+      question: 'In the book of Judges, what fleece test did Gideon use to confirm God would save Israel through him?',
+      options: ['Dew on the fleece only, then dry fleece on wet ground', 'Fleece catching fire, then soaked in oil', 'Fleece turning white, then turning purple', 'Fleece floating on water, then sinking in dust'],
+      answerIndex: 0,
+      answer: 'Dew on the fleece only, then dry fleece on wet ground',
+      reference: 'Judges 6:37-40',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'Gideon first asked for dew only on the fleece with all the ground dry, and the next night for dry fleece with dew on all the ground.'
+    },
+    {
+      question: 'What was the name of the servant girl who was so overjoyed to hear Peter’s voice at the gate that she forgot to open it?',
+      options: ['Rhoda', 'Tabitha', 'Priscilla', 'Damaris'],
+      answerIndex: 0,
+      answer: 'Rhoda',
+      reference: 'Acts 12:13-14',
+      difficulty: 'easy',
+      category: 'New Testament',
+      explanation: 'When Rhoda recognized Peter’s voice, in her joy she did not open the gate but ran in and reported that Peter was standing outside.'
+    },
+    {
+      question: 'According to Philippians 4, what surpasses all understanding and will guard believers\' hearts and minds in Christ Jesus?',
+      options: ['The peace of God', 'The wisdom of God', 'The power of God', 'The righteousness of God'],
+      answerIndex: 0,
+      answer: 'The peace of God',
+      reference: 'Philippians 4:7',
+      difficulty: 'easy',
+      category: 'Epistles',
+      explanation: 'And the peace of God, which surpasses all understanding, will guard your hearts and your minds in Christ Jesus.'
+    },
+    {
+      question: 'In 1 Samuel 17, how many smooth stones did David choose from the brook before facing Goliath?',
+      options: ['Five', 'Three', 'Seven', 'Twelve'],
+      answerIndex: 0,
+      answer: 'Five',
+      reference: '1 Samuel 17:40',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'David took his staff in his hand and chose five smooth stones from the brook and put them in his shepherd\'s pouch.'
+    },
+    {
+      question: 'What did Solomon ask God for at Gibeon when the Lord appeared to him in a dream at night?',
+      options: ['An understanding heart to judge God’s people', 'Long life and victory over enemies', 'Unsurpassed wealth and earthly honor', 'A mighty army of horsemen and chariots'],
+      answerIndex: 0,
+      answer: 'An understanding heart to judge God’s people',
+      reference: '1 Kings 3:9',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'Solomon requested an understanding mind to govern God’s great people and to discern between good and evil.'
+    },
+    {
+      question: 'Who was the Roman centurion in Caesarea of the Italian Cohort who feared God and sent for Peter?',
+      options: ['Cornelius', 'Julius', 'Claudius Lysias', 'Publius'],
+      answerIndex: 0,
+      answer: 'Cornelius',
+      reference: 'Acts 10:1-2',
+      difficulty: 'easy',
+      category: 'New Testament',
+      explanation: 'Cornelius was a centurion of what was known as the Italian Cohort, a devout man who feared God with all his household.'
+    },
+    {
+      question: 'What city’s walls fell flat after the Israelites marched around them once a day for six days and seven times on the seventh day?',
+      options: ['Jericho', 'Ai', 'Hazor', 'Lachish'],
+      answerIndex: 0,
+      answer: 'Jericho',
+      reference: 'Joshua 6:20',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'When the priests blew the trumpets and the people shouted with a great shout, the wall of Jericho fell down flat.'
+    },
+    {
+      question: 'In John 11, what is the shortest verse in the English Bible describing Jesus\' deep compassion at Lazarus\' tomb?',
+      options: ['Jesus wept', 'Rejoice always', 'Pray without ceasing', 'He is risen'],
+      answerIndex: 0,
+      answer: 'Jesus wept',
+      reference: 'John 11:35',
+      difficulty: 'easy',
+      category: 'Gospels',
+      explanation: 'John 11:35 records simply and powerfully: "Jesus wept."'
+    },
+    {
+      question: 'Which prophet was swallowed by a great fish after attempting to flee to Tarshish from the presence of the Lord?',
+      options: ['Jonah', 'Amos', 'Micah', 'Hosea'],
+      answerIndex: 0,
+      answer: 'Jonah',
+      reference: 'Jonah 1:17',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'And the Lord appointed a great fish to swallow up Jonah, and Jonah was in the belly of the fish three days and three nights.'
+    },
+    {
+      question: 'On what island was the Apostle John exiled when he received the revelation of Jesus Christ?',
+      options: ['Patmos', 'Cyprus', 'Crete', 'Malta'],
+      answerIndex: 0,
+      answer: 'Patmos',
+      reference: 'Revelation 1:9',
+      difficulty: 'easy',
+      category: 'New Testament',
+      explanation: 'John writes that he was on the island called Patmos on account of the word of God and the testimony of Jesus.'
+    },
+    {
+      question: 'Who was the king of Salem and priest of God Most High who brought out bread and wine to Abram?',
+      options: ['Melchizedek', 'Jethro', 'Abimelech', 'Eliezer'],
+      answerIndex: 0,
+      answer: 'Melchizedek',
+      reference: 'Genesis 14:18',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'Melchizedek king of Salem brought out bread and wine; he was priest of God Most High, and he blessed Abram.'
+    },
+    {
+      question: 'In Matthew 2, what three specific gifts did the wise men (Magi) present to the young child Jesus?',
+      options: ['Gold, frankincense, and myrrh', 'Silver, cedar, and olive oil', 'Gold, cinnamon, and purple cloth', 'Frankincense, pomegranate, and alabaster'],
+      answerIndex: 0,
+      answer: 'Gold, frankincense, and myrrh',
+      reference: 'Matthew 2:11',
+      difficulty: 'easy',
+      category: 'Gospels',
+      explanation: 'Opening their treasures, they offered him gifts, gold and frankincense and myrrh.'
+    },
+    {
+      question: 'Which prophet challenged 450 prophets of Baal to a contest on Mount Carmel to see which God would answer by fire?',
+      options: ['Elijah', 'Elisha', 'Micaiah', 'Obadiah'],
+      answerIndex: 0,
+      answer: 'Elijah',
+      reference: '1 Kings 18:21-24',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'Elijah summoned Israel and the prophets of Baal to Mount Carmel, declaring: "The God who answers by fire, he is God."'
+    },
+    {
+      question: 'What musical instrument did David play that refreshed King Saul and caused the harmful spirit to depart from him?',
+      options: ['Lyre (Harp)', 'Shofar', 'Cymbals', 'Flute'],
+      answerIndex: 0,
+      answer: 'Lyre (Harp)',
+      reference: '1 Samuel 16:23',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'Whenever the harmful spirit from God was upon Saul, David took the lyre and played it with his hand, and Saul was refreshed.'
+    },
+    {
+      question: 'In Romans 8, what does Paul declare can never separate believers from the love of God in Christ Jesus?',
+      options: ['Neither death nor life, nor angels nor rulers, nor anything in all creation', 'Only unconfessed transgressions', 'Physical tribulation and persecution', 'The strict observance of the ceremonial law'],
+      answerIndex: 0,
+      answer: 'Neither death nor life, nor angels nor rulers, nor anything in all creation',
+      reference: 'Romans 8:38-39',
+      difficulty: 'medium',
+      category: 'Epistles',
+      explanation: 'Paul affirms with absolute certainty that nothing in all creation will be able to separate us from the love of God in Christ Jesus.'
+    },
+    {
+      question: 'Who was the woman of Thyatira, a seller of purple goods, whose heart the Lord opened to pay attention to Paul’s preaching?',
+      options: ['Lydia', 'Phoebe', 'Chloe', 'Priscilla'],
+      answerIndex: 0,
+      answer: 'Lydia',
+      reference: 'Acts 16:14',
+      difficulty: 'medium',
+      category: 'New Testament',
+      explanation: 'Lydia was a seller of purple fabrics from Thyatira; the Lord opened her heart to respond to Paul’s message in Philippi.'
+    },
+    {
+      question: 'What was the name of Moses\' brother who served as his spokesman and became the first High Priest of Israel?',
+      options: ['Aaron', 'Hur', 'Eleazar', 'Caleb'],
+      answerIndex: 0,
+      answer: 'Aaron',
+      reference: 'Exodus 4:14; Exodus 28:1',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'God appointed Aaron the Levite as Moses’ brother and spokesman, later consecrating him and his sons as priests.'
+    },
+    {
+      question: 'Which book of the Bible never explicitly mentions the name of God, yet vividly demonstrates His divine providence?',
+      options: ['Esther', 'Ruth', 'Song of Solomon', 'Ecclesiastes'],
+      answerIndex: 0,
+      answer: 'Esther',
+      reference: 'Book of Esther',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'The Book of Esther does not explicitly mention the name of God, yet His providential sovereignty orchestrates every turning point.'
+    },
+    {
+      question: 'What prophet witnessed a valley of dry bones come together bone to bone, covered with sinew and flesh, and filled with breath?',
+      options: ['Ezekiel', 'Jeremiah', 'Isaiah', 'Zechariah'],
+      answerIndex: 0,
+      answer: 'Ezekiel',
+      reference: 'Ezekiel 37:1-10',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'Ezekiel prophesied over the dry bones in the valley, and breath came into them, and they lived and stood on their feet.'
+    },
+    {
+      question: 'In 2 Corinthians 12, what did the Lord say to Paul when Paul pleaded three times for his thorn in the flesh to be removed?',
+      options: ['"My grace is sufficient for you, for my power is made perfect in weakness"', '"Be healed of your infirmity and go in peace"', '"Your faith has made you completely whole"', '"Wait upon the Lord and renew your strength"'],
+      answerIndex: 0,
+      answer: '"My grace is sufficient for you, for my power is made perfect in weakness"',
+      reference: '2 Corinthians 12:9',
+      difficulty: 'medium',
+      category: 'Epistles',
+      explanation: 'The Lord answered Paul: "My grace is sufficient for you, for my power is made perfect in weakness."'
+    },
+    {
+      question: 'Which king of Israel married Jezebel, daughter of Ethbaal king of the Sidonians, and promoted Baal worship in Samaria?',
+      options: ['Ahab', 'Jeroboam', 'Jehoram', 'Baasha'],
+      answerIndex: 0,
+      answer: 'Ahab',
+      reference: '1 Kings 16:30-31',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'Ahab the son of Omri did evil in the sight of the Lord more than all who were before him, marrying Jezebel and serving Baal.'
+    },
+    {
+      question: 'What are the fruit of the Spirit listed by the Apostle Paul in Galatians 5?',
+      options: ['Love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control', 'Faith, hope, charity, fasting, almsgiving, prayer, and vigilance', 'Wisdom, knowledge, faith, healing, miracles, prophecy, and tongues', 'Righteousness, justice, mercy, truth, obedience, and perseverance'],
+      answerIndex: 0,
+      answer: 'Love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control',
+      reference: 'Galatians 5:22-23',
+      difficulty: 'easy',
+      category: 'Epistles',
+      explanation: 'Paul lists the ninefold fruit of the Spirit in Galatians 5:22-23, concluding that "against such things there is no law."'
+    },
+    {
+      question: 'Who was the prophetess and judge of Israel who sat under a palm tree between Ramah and Bethel and summoned Barak?',
+      options: ['Deborah', 'Huldah', 'Miriam', 'Noadiah'],
+      answerIndex: 0,
+      answer: 'Deborah',
+      reference: 'Judges 4:4-5',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'Deborah, a prophetess and the wife of Lappidoth, was judging Israel at that time beneath the palm of Deborah.'
+    },
+    {
+      question: 'According to Hebrews 11:1, how is faith classically defined in scripture?',
+      options: ['The assurance of things hoped for, the conviction of things not seen', 'A blind leap of emotion in times of difficulty', 'Trusting that all our earthly desires will be fulfilled', 'Intellectual assent to historical biblical facts'],
+      answerIndex: 0,
+      answer: 'The assurance of things hoped for, the conviction of things not seen',
+      reference: 'Hebrews 11:1',
+      difficulty: 'easy',
+      category: 'New Testament',
+      explanation: 'Hebrews 11:1 defines faith as the assurance of things hoped for and the conviction of things not seen.'
+    },
+    {
+      question: 'Who was the Moabite woman who declared to her mother-in-law Naomi: "Where you go I will go, and where you lodge I will lodge. Your people shall be my people, and your God my God"?',
+      options: ['Ruth', 'Orpah', 'Rahab', 'Tamar'],
+      answerIndex: 0,
+      answer: 'Ruth',
+      reference: 'Ruth 1:16',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'Ruth refused to leave Naomi, speaking these timeless words of covenant faithfulness to Naomi and the Lord God.'
+    },
+    {
+      question: 'What was the name of the Pharisee and ruler of the Jews who came to Jesus by night to ask about being born again?',
+      options: ['Nicodemus', 'Joseph of Arimathea', 'Gamaliel', 'Simon the Pharisee'],
+      answerIndex: 0,
+      answer: 'Nicodemus',
+      reference: 'John 3:1-3',
+      difficulty: 'easy',
+      category: 'Gospels',
+      explanation: 'Nicodemus came to Jesus by night and was told that unless one is born again, he cannot see the kingdom of God.'
+    },
+    {
+      question: 'In 2 Kings 2, how was the prophet Elijah taken up into heaven in the presence of Elisha?',
+      options: ['In a whirlwind with a chariot and horses of fire', 'In a calm cloud of divine glory', 'On the wings of angels across the Jordan', 'By a pillar of smoke ascending from the mountains'],
+      answerIndex: 0,
+      answer: 'In a whirlwind with a chariot and horses of fire',
+      reference: '2 Kings 2:11',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'A chariot of fire and horses of fire separated Elijah and Elisha, and Elijah went up by a whirlwind into heaven.'
+    },
+    {
+      question: 'Which evangelist was led by the Spirit to the desert road from Jerusalem to Gaza to explain Isaiah 53 to an Ethiopian official?',
+      options: ['Philip', 'Stephen', 'Prochorus', 'Timon'],
+      answerIndex: 0,
+      answer: 'Philip',
+      reference: 'Acts 8:26-35',
+      difficulty: 'medium',
+      category: 'New Testament',
+      explanation: 'Philip ran to the Ethiopian eunuch, explained the prophecy of Isaiah, and proclaimed the good news of Jesus to him.'
+    },
+    {
+      question: 'In Genesis 28, what did Jacob see in a dream at Bethel that reached from earth to heaven?',
+      options: ['A ladder (stairway) with angels of God ascending and descending', 'A river of crystal water flowing from a golden altar', 'A pillar of burning fire reaching to the clouds', 'A chariot of silver carrying the ark of the covenant'],
+      answerIndex: 0,
+      answer: 'A ladder (stairway) with angels of God ascending and descending',
+      reference: 'Genesis 28:12',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'Jacob dreamed and behold, a ladder was set up on earth with its top reaching to heaven, and the angels of God were ascending and descending on it.'
+    },
+    {
+      question: 'Which young king of Judah began to reign at age eight and repaired the temple, where Hilkiah found the Book of the Law?',
+      options: ['Josiah', 'Hezekiah', 'Joash', 'Manasseh'],
+      answerIndex: 0,
+      answer: 'Josiah',
+      reference: '2 Kings 22:1-8',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'King Josiah spearheaded major reforms throughout Judah after the Book of the Law was rediscovered in the temple of the Lord.'
+    },
+    {
+      question: 'In Matthew 14, which disciple stepped out of the boat and walked on the water toward Jesus before sinking in fear?',
+      options: ['Peter', 'John', 'James', 'Andrew'],
+      answerIndex: 0,
+      answer: 'Peter',
+      reference: 'Matthew 14:28-30',
+      difficulty: 'easy',
+      category: 'Gospels',
+      explanation: 'Peter got out of the boat and walked on the water toward Jesus, but when he saw the wind, he was afraid and cried out, "Lord, save me!"'
+    },
+    {
+      question: 'What prophetic titles in Isaiah 9:6 are given to the child who will be born and the Son who will be given?',
+      options: ['Wonderful Counselor, Mighty God, Everlasting Father, Prince of Peace', 'Holy One of Israel, Shield of David, Horn of Salvation', 'Lion of Judah, Root of Jesse, Bright Morning Star', 'Author and Finisher, Great Shepherd, King of Salem'],
+      answerIndex: 0,
+      answer: 'Wonderful Counselor, Mighty God, Everlasting Father, Prince of Peace',
+      reference: 'Isaiah 9:6',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'Isaiah foretells the Messiah’s reign: "His name shall be called Wonderful Counselor, Mighty God, Everlasting Father, Prince of Peace."'
+    },
+    {
+      question: 'In Acts 9, on what road was Saul traveling when a blinding light from heaven shone and Jesus spoke to him?',
+      options: ['The road to Damascus', 'The road to Jericho', 'The road to Emmaus', 'The road to Antioch'],
+      answerIndex: 0,
+      answer: 'The road to Damascus',
+      reference: 'Acts 9:3',
+      difficulty: 'easy',
+      category: 'New Testament',
+      explanation: 'As Saul approached Damascus on his mission to arrest believers, a light from heaven shone around him and Jesus revealed Himself.'
+    },
+    {
+      question: 'What did the prophet Elisha instruct Naaman the Syrian army commander to do in order to be cleansed of his leprosy?',
+      options: ['Wash seven times in the Jordan River', 'Offer twenty silver talents at the altar of Bethel', 'Fast for forty days in the wilderness of Gilead', 'Sprinkle sheep blood upon the altar of Samaria'],
+      answerIndex: 0,
+      answer: 'Wash seven times in the Jordan River',
+      reference: '2 Kings 5:10',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'Elisha sent word to Naaman to dip seven times in the Jordan River, and his flesh was restored like the flesh of a little child.'
+    },
+    {
+      question: 'In the Sermon on the Mount, where did Jesus instruct believers to lay up lasting treasures?',
+      options: ['In heaven, where neither moth nor rust destroys and thieves do not break in', 'In the temple treasury of Jerusalem', 'In secret storehouses hidden from collectors', 'In land and inheritance passed to descendants'],
+      answerIndex: 0,
+      answer: 'In heaven, where neither moth nor rust destroys and thieves do not break in',
+      reference: 'Matthew 6:20',
+      difficulty: 'easy',
+      category: 'Gospels',
+      explanation: 'Jesus taught: "Lay up for yourselves treasures in heaven, where neither moth nor rust destroys and where thieves do not break in and steal."'
+    },
+    {
+      question: 'What were the Hebrew names of Daniel\'s three companions who were cast into the blazing furnace?',
+      options: ['Hananiah, Mishael, and Azariah', 'Belteshazzar, Sheshbazzar, and Zerubbabel', 'Eliezer, Phinehas, and Ithamar', 'Hophni, Phinehas, and Ichabod'],
+      answerIndex: 0,
+      answer: 'Hananiah, Mishael, and Azariah',
+      reference: 'Daniel 1:6-7; Daniel 3',
+      difficulty: 'hard',
+      category: 'Old Testament',
+      explanation: 'The Babylonians renamed Hananiah, Mishael, and Azariah to Shadrach, Meshach, and Abednego before they faced the fiery furnace.'
+    },
+    {
+      question: 'Which Roman governor presided over the trial of Jesus and washed his hands before the multitude?',
+      options: ['Pontius Pilate', 'Felix', 'Festus', 'Gallio'],
+      answerIndex: 0,
+      answer: 'Pontius Pilate',
+      reference: 'Matthew 27:24',
+      difficulty: 'easy',
+      category: 'Gospels',
+      explanation: 'Pilate took water and washed his hands before the crowd, saying, "I am innocent of this man\'s blood; see to it yourselves."'
+    },
+    {
+      question: 'In Genesis 22, what animal did Abraham find caught in a thicket by its horns to offer in place of his son Isaac?',
+      options: ['A ram', 'A bull', 'A goat', 'A young lamb'],
+      answerIndex: 0,
+      answer: 'A ram',
+      reference: 'Genesis 22:13',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'Abraham looked and saw a ram caught in a thicket by its horns, and offered it as a burnt offering instead of his son on Mount Moriah.'
+    },
+    {
+      question: 'Who was the first Christian martyr recorded in the Book of Acts who prayed for his executioners as they stoned him?',
+      options: ['Stephen', 'James the son of Zebedee', 'Barnabas', 'Silas'],
+      answerIndex: 0,
+      answer: 'Stephen',
+      reference: 'Acts 7:59-60',
+      difficulty: 'easy',
+      category: 'New Testament',
+      explanation: 'Stephen prayed, "Lord, do not hold this sin against them," as he was stoned to death outside the city.'
+    },
+    {
+      question: 'According to Psalm 23, where does the Good Shepherd make the psalmist lie down, and beside what waters does He lead him?',
+      options: ['Green pastures and still waters', 'Rocky peaks and living streams', 'Olive groves and torrential rivers', 'Wilderness valleys and mountain brooks'],
+      answerIndex: 0,
+      answer: 'Green pastures and still waters',
+      reference: 'Psalm 23:2',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'Psalm 23:2 states: "He makes me lie down in green pastures. He leads me beside still waters. He restores my soul."'
+    },
+    {
+      question: 'In Luke 19, what kind of tree did Zacchaeus the chief tax collector climb in Jericho in order to see Jesus?',
+      options: ['Sycamore fig tree', 'Olive tree', 'Cedar tree', 'Oak tree'],
+      answerIndex: 0,
+      answer: 'Sycamore fig tree',
+      reference: 'Luke 19:4',
+      difficulty: 'easy',
+      category: 'Gospels',
+      explanation: 'Zacchaeus ran ahead and climbed into a sycamore-fig tree to see Jesus, because he was short in stature.'
+    },
+    {
+      question: 'In 1 Kings 17, how did God miraculously feed Elijah at the brook Cherith during the drought?',
+      options: ['Ravens brought him bread and meat morning and evening', 'Angels brought him manna daily', 'A widow from Jericho brought him flour', 'Shepherds from Gilead brought him goat milk'],
+      answerIndex: 0,
+      answer: 'Ravens brought him bread and meat morning and evening',
+      reference: '1 Kings 17:6',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'The ravens brought Elijah bread and meat in the morning and evening, and he drank from the brook Cherith.'
+    },
+    {
+      question: 'Which apostle famously doubted the resurrection of Jesus until he saw and touched the nail prints in Jesus\' hands and side?',
+      options: ['Thomas', 'Philip', 'Bartholomew', 'Thaddaeus'],
+      answerIndex: 0,
+      answer: 'Thomas',
+      reference: 'John 20:24-28',
+      difficulty: 'easy',
+      category: 'Gospels',
+      explanation: 'Thomas said he would not believe unless he saw the nail marks, but upon seeing Jesus, he confessed: "My Lord and my God!"'
+    },
+    {
+      question: 'According to Proverbs 3:5-6, what must believers do instead of leaning on their own human understanding?',
+      options: ['Trust in the Lord with all their heart and acknowledge Him in all their ways', 'Rely on the council of philosophers', 'Seek earthly signs before making decisions', 'Depend primarily on their own intellect and wealth'],
+      answerIndex: 0,
+      answer: 'Trust in the Lord with all their heart and acknowledge Him in all their ways',
+      reference: 'Proverbs 3:5-6',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: '"Trust in the Lord with all your heart, and do not lean on your own understanding. In all your ways acknowledge him, and he will make straight your paths."'
+    },
+    {
+      question: 'What village was the home of Mary, Martha, and Lazarus where Jesus raised Lazarus from the dead?',
+      options: ['Bethany', 'Bethlehem', 'Capernaum', 'Nazareth'],
+      answerIndex: 0,
+      answer: 'Bethany',
+      reference: 'John 11:1',
+      difficulty: 'medium',
+      category: 'Gospels',
+      explanation: 'Lazarus and his sisters Mary and Martha lived in Bethany, about two miles east of Jerusalem.'
+    },
+    {
+      question: 'In Exodus 14, what body of water did the Lord divide with a strong east wind so the Israelites could cross on dry ground?',
+      options: ['The Red Sea', 'The Jordan River', 'The Sea of Galilee', 'The Euphrates River'],
+      answerIndex: 0,
+      answer: 'The Red Sea',
+      reference: 'Exodus 14:21-22',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'Moses stretched out his hand over the sea, and the Lord drove back the Red Sea with a strong east wind all night, creating dry ground.'
+    },
+    {
+      question: 'Who anointed both Saul and David as kings of Israel in obedience to the word of the Lord?',
+      options: ['Samuel', 'Nathan', 'Gad', 'Ahijah'],
+      answerIndex: 0,
+      answer: 'Samuel',
+      reference: '1 Samuel 10:1; 1 Samuel 16:13',
+      difficulty: 'easy',
+      category: 'Old Testament',
+      explanation: 'The prophet Samuel poured oil over Saul to make him king, and later anointed David from among the sons of Jesse in Bethlehem.'
+    },
+    {
+      question: 'In Acts 2, on what Jewish feast day did the Holy Spirit descend upon the believers in Jerusalem like tongues of fire?',
+      options: ['Pentecost', 'Passover', 'Tabernacles (Sukkot)', 'Day of Atonement (Yom Kippur)'],
+      answerIndex: 0,
+      answer: 'Pentecost',
+      reference: 'Acts 2:1-4',
+      difficulty: 'easy',
+      category: 'New Testament',
+      explanation: 'On the day of Pentecost, the believers were filled with the Holy Spirit and began to speak in other tongues as the Spirit gave utterance.'
+    },
+    {
+      question: 'Which New Testament epistle contains the renowned "Hall of Faith" honoring Abraham, Moses, Rahab, and other ancient believers?',
+      options: ['Hebrews (Chapter 11)', 'Romans (Chapter 8)', 'James (Chapter 2)', '1 Peter (Chapter 1)'],
+      answerIndex: 0,
+      answer: 'Hebrews (Chapter 11)',
+      reference: 'Hebrews 11',
+      difficulty: 'easy',
+      category: 'New Testament',
+      explanation: 'Hebrews 11 is celebrated across Christendom as the "Hall of Faith," recounting the steadfast trust of biblical patriarchs and martyrs.'
+    },
+    {
+      question: 'In 1 Corinthians 13, which three eternal virtues abide, and which one is declared the greatest?',
+      options: ['Faith, hope, and love; the greatest of these is love', 'Prayer, fasting, and almsgiving; the greatest is prayer', 'Wisdom, knowledge, and prophecy; the greatest is wisdom', 'Justice, mercy, and humility; the greatest is mercy'],
+      answerIndex: 0,
+      answer: 'Faith, hope, and love; the greatest of these is love',
+      reference: '1 Corinthians 13:13',
+      difficulty: 'easy',
+      category: 'Epistles',
+      explanation: '"So now faith, hope, and love abide, these three; but the greatest of these is love."'
+    },
+    {
+      question: 'What was the name of the garden across the Kidron Valley where Jesus prayed in anguish before His betrayal?',
+      options: ['Gethsemane', 'Eden', 'Nain', 'Engedi'],
+      answerIndex: 0,
+      answer: 'Gethsemane',
+      reference: 'Matthew 26:36',
+      difficulty: 'easy',
+      category: 'Gospels',
+      explanation: 'Jesus went with His disciples to Gethsemane on the Mount of Olives and prayed: "Not as I will, but as you will."'
+    },
+    {
+      question: 'Who was the aged priest who mentored young Samuel in the tabernacle at Shiloh?',
+      options: ['Eli', 'Phinehas', 'Ahimelech', 'Zadok'],
+      answerIndex: 0,
+      answer: 'Eli',
+      reference: '1 Samuel 3:1-9',
+      difficulty: 'medium',
+      category: 'Old Testament',
+      explanation: 'Eli the high priest served at Shiloh and instructed young Samuel how to answer when the Lord called his name: "Speak, Lord, for your servant hears."'
+    },
+    {
+      question: 'In the Book of Revelation, what Greek letters are proclaimed by the Lord God to describe His eternal, sovereign nature?',
+      options: ['Alpha and Omega', 'Beta and Zeta', 'Delta and Sigma', 'Chi and Rho'],
+      answerIndex: 0,
+      answer: 'Alpha and Omega',
+      reference: 'Revelation 1:8',
+      difficulty: 'easy',
+      category: 'New Testament',
+      explanation: '"I am the Alpha and the Omega," says the Lord God, "who is and who was and who is to come, the Almighty."'
     }
   ];
 
-  // Fisher-Yates shuffle algorithm to guarantee randomized sets on each run
+  // Fisher-Yates shuffle algorithm to guarantee randomized sets on initial master dataset build
   const shuffled = [...rawQuestions];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -1344,15 +1875,46 @@ const generateMasterQuestions = (): Question[] => {
     return {
       ...randomized,
       id: idx + 1,
-      explanation: q.explanation || `This rigorous question examines key biblical principles from ${q.category} and scripture reference ${q.reference}.`
+      explanation: q.explanation || `This biblical question examines truth from ${q.category} and scripture reference ${q.reference}.`
     };
   });
 };
 
+/**
+ * Creates a freshly randomized quiz session dataset:
+ * 1. Shuffles the questions with an unbiased Fisher-Yates shuffle so no question repeats within the session.
+ * 2. Shuffles answer options (A, B, C, D) for each question, safely preserving correct answer identity.
+ * 3. Assigns clean sequential IDs (1..N).
+ * 4. Freezes this order for the lifetime of the session so navigating back and forward is rock-solid.
+ */
+export const createShuffledSessionDataset = (baseDataset: QuizDataset, limit?: number): QuizDataset => {
+  const pool = [...baseDataset.questions];
+  // Fisher-Yates unbiased shuffle
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+
+  const selected = limit && limit > 0 ? pool.slice(0, limit) : pool;
+
+  const sessionQuestions: Question[] = selected.map((q, idx) => {
+    const randomized = shuffleQuestionOptions(q);
+    return {
+      ...randomized,
+      id: idx + 1,
+    };
+  });
+
+  return {
+    ...baseDataset,
+    questions: sessionQuestions,
+  };
+};
+
 export const masterDataset: QuizDataset = {
-  id: 'master-110',
-  title: 'Ultimate 110-Question Advanced Bible Challenge',
-  description: 'A comprehensive 1-hour rigorous theological marathon progressing through historical and scholarly scripture challenges.',
+  id: 'master-challenge',
+  title: 'Ultimate Advanced Bible Challenge',
+  description: 'A comprehensive, rigorous theological marathon of historical, prophetic, and gospel scripture challenges.',
   category: 'Full Bible Masterclass',
   questions: generateMasterQuestions()
 };
@@ -1370,7 +1932,7 @@ export const newTestamentDataset: QuizDataset = {
   title: 'New Testament Gospels & Epistles',
   description: 'Test your knowledge of the life of Christ and apostolic letters.',
   category: 'New Testament',
-  questions: masterDataset.questions.filter(q => q.category === 'Gospels' || q.category === 'New Testament').slice(0, 25)
+  questions: masterDataset.questions.filter(q => q.category === 'Gospels' || q.category === 'New Testament' || q.category === 'Epistles').slice(0, 25)
 };
 
 export const allDatasets: QuizDataset[] = [
